@@ -1,0 +1,6 @@
+file(GLOB INTERFACES "*")
+foreach(INTERFACE ${INTERFACES})
+    if(IS_DIRECTORY ${INTERFACE})
+        add_subdirectory(${INTERFACE})
+    endif()
+endforeach()

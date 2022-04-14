@@ -2,7 +2,7 @@
 #define SAMPLE_TASK_H
 
 #include <Task/Task.hpp>
-
+#include <OutputLoggerInterface.hpp>
 
 #ifndef SAMPLE_TASK_CONFIG_FILENAME
 #define SAMPLE_TASK_CONFIG_FILENAME "config.json"
@@ -15,6 +15,7 @@ namespace openais
         {
         private:
             static SampleTask _task;
+            interfaces::OutputLoggerInterface *logger;
 
         public:
             Task *Clone() const override;

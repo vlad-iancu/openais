@@ -1,10 +1,13 @@
 #include <SampleTask.hpp>
+#include <Interface/InterfaceDB.hpp>
+
 #include <iostream>
 
 using Task = openais::task::Task;
 using SampleTask = openais::task::SampleTask;
 using Config = openais::task::Config;
 using string = std::string;
+using namespace openais;
 
 SampleTask SampleTask::_task;
 
@@ -20,11 +23,14 @@ Task *SampleTask::Clone() const
 
 void SampleTask::Initialize(const Config &config)
 {
+    std::cout << "Initializing logger..." << std::endl;
+    logger = interface::InterfaceDB::GetInterface<interfaces::OutputLoggerInterface>("Logger");
+    std::cout << "Initialized logger" << std::endl;
 }
 
 void SampleTask::Executive()
 {
-    std::cout << "SampleTask is running..." << std::endl;
+    logger->Publish("Logging from SampleTask");
 }
 
 void SampleTask::Clean()

@@ -1,3 +1,8 @@
 {
-    "frequency_hz": 2
+    "config": {
+        "frequency_hz": 2
+    },
+    "interfaces": {
+        "Logger": "ConsoleLogger"
+    }
 }
