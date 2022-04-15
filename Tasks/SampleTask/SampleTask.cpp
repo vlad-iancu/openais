@@ -24,13 +24,13 @@ Task *SampleTask::Clone() const
 void SampleTask::Initialize(const Config &config)
 {
     std::cout << "Initializing logger..." << std::endl;
-    logger = interface::InterfaceDB::GetInterface<interfaces::OutputLoggerInterface>("Logger");
+    logger = interface::InterfaceDB::GetInterface<interface::OutputInterface<int>>("Logger");
     std::cout << "Initialized logger" << std::endl;
 }
 
 void SampleTask::Executive()
 {
-    logger->Publish("Logging from SampleTask");
+    logger->Publish(0);
 }
 
 void SampleTask::Clean()

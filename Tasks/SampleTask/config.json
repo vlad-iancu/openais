@@ -3,6 +3,6 @@
         "frequency_hz": 2
     },
     "interfaces": {
-        "Logger": "ConsoleLogger"
+        "Logger": "Sample"
     }
 }
