@@ -17,9 +17,12 @@ namespace openais
             static int counter;
             static Interface *interfaces[MAX_INTERFACES];
 
+        private:
+            bool m_active = false;
+
         protected:
             static void RegisterInterface(Interface *interface);
-
+            
         public:
             static Interface *GetInterface(int index);
             static Interface *GetInterface(const std::string &name);
@@ -28,6 +31,10 @@ namespace openais
         public:
             virtual Interface *Clone() const = 0;
             virtual std::string GetInterfaceName() const = 0;
+            virtual bool Start() = 0;
+            virtual bool Stop() = 0;
+            bool IsActive() const;
+            void IsActive(bool active);
         };
     } // namespace interface
 

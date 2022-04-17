@@ -3,6 +3,9 @@
 
 #include <Task/Task.hpp>
 #include <Interface/OutputInterface.hpp>
+#include <Interface/InputInterface.hpp>
+
+#include <mutex>
 
 #ifndef SAMPLE_TASK_CONFIG_FILENAME
 #define SAMPLE_TASK_CONFIG_FILENAME "config.json"
@@ -15,7 +18,12 @@ namespace openais
         {
         private:
             static SampleTask _task;
-            openais::interface::OutputInterface<int> *logger;
+            openais::interface::OutputInterface<string> *logger;
+            openais::interface::InputInterface<string> *numberProvider;
+            std::mutex mtx;
+
+        private:
+            void PublishNumber(string n);
 
         public:
             Task *Clone() const override;

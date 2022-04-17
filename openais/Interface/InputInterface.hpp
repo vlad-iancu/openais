@@ -14,7 +14,7 @@ namespace openais
         template <typename T>
         class InputInterface : public Interface
         {
-        private:
+        protected:
             Callback<T> m_callback;
 
         public:

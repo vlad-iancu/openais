@@ -1,6 +1,8 @@
 add_executable(SampleTask SampleTask.cpp)
 
-set(INTERFACES OutputSampleInterface InterfaceBase)
+set(INTERFACES 
+        OutputConsoleLoggerInterface
+        InputNumberStringProviderInterface)
 
 target_link_libraries(SampleTask PUBLIC Task -Wl,--whole-archive ${INTERFACES} -Wl,--no-whole-archive)
 target_include_directories(SampleTask PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/openais)

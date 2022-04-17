@@ -1,6 +1,7 @@
 #include <Interface/Interface.hpp>
 
 #include <algorithm>
+#include <iostream>
 
 using namespace openais::interface;
 
@@ -19,7 +20,8 @@ int Interface::GetInterfaceCount()
 
 void Interface::RegisterInterface(Interface *interface)
 {
-    interfaces[counter] = interface->Clone();
+    std::cout << "interface counter " << counter << std::endl;
+    interfaces[counter++] = interface->Clone();
 }
 
 Interface *Interface::GetInterface(const std::string &name)
@@ -36,4 +38,14 @@ Interface *Interface::GetInterface(const std::string &name)
         return nullptr;
     }
     return *ifaceptr;
+}
+
+bool Interface::IsActive() const
+{
+    return m_active;
+}
+
+void Interface::IsActive(bool active)
+{
+    m_active = active;
 }

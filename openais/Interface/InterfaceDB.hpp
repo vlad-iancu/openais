@@ -1,9 +1,12 @@
 #ifndef OPENAIS_INTERFACEDB_H
 #define OPENAIS_INTERFACEDB_H
 
+#include <Interface/Interface.hpp>
+
+#include <stdexcept>
 #include <map>
 #include <string>
-#include <Interface/Interface.hpp>
+#include <iostream>
 
 namespace openais
 {
@@ -20,7 +23,17 @@ namespace openais
             template<typename T>
             static T *GetInterface(const std::string &interface)
             {
-                return dynamic_cast<T*>(interfaces[interface]->Clone());
+                if(interfaces.find(interface) == interfaces.end())
+                {
+                    std::cout << "Warning: " << "InterfaceDB was unable to find interface \"" << interface << "\"" << std::endl;
+                    return nullptr;
+                }
+                T* iface = dynamic_cast<T*>(interfaces[interface]->Clone());
+                if(!iface)
+                {
+                    std::cout << "Warning: " << "Incorrect interface type for \"" << interface << "\"" << std::endl;
+                }
+                return iface;
             }
         };
     } // namespace interface
