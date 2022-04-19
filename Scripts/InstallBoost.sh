@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BOOST_VERSION="1_78_0"
-echo $SCRIPTS/Common.sh
+#echo $SCRIPTS/Common.sh
 source $SCRIPTS/Common.sh
 
 BOOST_ROOT=$PROJECT_DIR/BuildDependencies/boost

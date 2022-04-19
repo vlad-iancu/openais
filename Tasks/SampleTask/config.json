@@ -1,9 +1,0 @@
-{
-    "config": {
-        "frequency_hz": 2
-    },
-    "interfaces": {
-        "Logger": "ConsoleLogger",
-        "NumberProvider": "NumberStringProvider"
-    }
-}
