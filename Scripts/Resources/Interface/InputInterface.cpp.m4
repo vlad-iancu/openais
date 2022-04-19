@@ -1,5 +1,5 @@
 define(NAME, translit(interfaceName, `a-z', `A-Z'))dnl
-define(ClassName, `Input'interfaceName`Interface')dnl
+define(ClassName, ``Input'interfaceName`Interface'')dnl
 
 `#include' <ClassName.hpp>
 
