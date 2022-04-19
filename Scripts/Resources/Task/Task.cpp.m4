@@ -1,5 +1,5 @@
-define(SampleTask, taskName`Task')dnl
-define(SAMPLE_TASK_CONFIG_FILENAME, translit(taskName, `a-z', `A-Z')`_TASK_CONFIG_FILENAME')dnl
+define(SampleTask, `taskName`Task'')dnl
+define(SAMPLE_TASK_CONFIG_FILENAME, `translit(taskName, `a-z', `A-Z')`_TASK_CONFIG_FILENAME'')dnl
 `#include' <taskName`Task.hpp'>
 `#include' <iostream>
 

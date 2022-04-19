@@ -1,3 +1,0 @@
-add_library(OutputConsoleLoggerInterface STATIC OutputConsoleLoggerInterface.cpp)
-target_include_directories(OutputConsoleLoggerInterface PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/openais)
-set_target_properties(OutputConsoleLoggerInterface PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)

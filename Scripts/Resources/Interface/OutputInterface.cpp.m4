@@ -1,4 +1,4 @@
-define(ClassName, `Output'interfaceName`Interface')dnl
+define(ClassName, ``Output'interfaceName`Interface'')dnl
 `#include'<ClassName.hpp>
 
 using namespace openais::interfaces;

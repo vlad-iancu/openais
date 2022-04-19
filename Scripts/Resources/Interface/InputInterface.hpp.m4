@@ -1,6 +1,6 @@
 define(NAME, translit(interfaceName, `a-z', `A-Z'))dnl
 define(HEADER_GUARD, `OPENAIS_INPUT_'NAME`_INTERFACE_H')dnl
-define(ClassName, `Input'interfaceName`Interface')dnl
+define(ClassName, ``Input'interfaceName`Interface'')dnl
 `#ifndef' HEADER_GUARD
 `#define' HEADER_GUARD
 
