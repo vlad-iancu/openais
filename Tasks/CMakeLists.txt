@@ -1,6 +1,6 @@
 file(GLOB TASKS "*")
 foreach(TASK ${TASKS})
-    if(IS_DIRECTORY ${TASK}) # This was changed
+    if(IS_DIRECTORY ${TASK})
         add_subdirectory(${TASK})
     endif()
 endforeach()
