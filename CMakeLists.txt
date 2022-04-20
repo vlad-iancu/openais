@@ -18,6 +18,13 @@ if(ENABLE_TESTING)
     add_custom_target(tests ${CMAKE_CTEST_COMMAND})
 endif()
 
+set(DOXYGEN ${CMAKE_SOURCE_DIR}/BuildDependencies/doxygen/build/target/bin/doxygen)
+set(DOXYGEN_PROPERTIES "")
+
+add_custom_target(docs
+    COMMAND cat ${CMAKE_SOURCE_DIR}/Doxyfile ${CMAKE_SOURCE_DIR}/Doxyfile.in | ${DOXYGEN} -
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
 
 add_subdirectory(openais)
 add_subdirectory(Interfaces)

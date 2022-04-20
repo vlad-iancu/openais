@@ -1,7 +1,8 @@
 #!/bin/bash
 
+#In order to run this script standalone the variables SCRIPTS, PROJECT_DIR and TEMP_DIR need to be set
 BOOST_VERSION="1_78_0"
-#echo $SCRIPTS/Common.sh
+
 source $SCRIPTS/Common.sh
 
 BOOST_ROOT=$PROJECT_DIR/BuildDependencies/boost
