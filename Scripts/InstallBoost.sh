@@ -30,7 +30,8 @@ $PWD/bootstrap.sh --prefix=$BOOST_ROOT 2>> $TEMP_DIR/Init.log 1>> $TEMP_DIR/Init
 
 
 print "Compiling"
-$PWD/b2 2>> $TEMP_DIR/Init.log 1>> $TEMP_DIR/Init.log
+CORES=$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
+$PWD/b2 -j ${CORES} 2>> $TEMP_DIR/Init.log 1>> $TEMP_DIR/Init.log
 
 
 print "Installing"
