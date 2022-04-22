@@ -12,14 +12,31 @@ namespace openais
 {
     namespace interface
     {
+        /**
+         * @brief This class serves as a key-value store for Self-registered interface objects
+         * 
+         */
         class InterfaceDB
         {
         private:
             static std::map<std::string, Interface*> interfaces;
 
         public:
+            /**
+             * @brief Registers an interface under a specific name
+             * 
+             * @param name the name that will be associated with the interface parameter
+             * @param interface the interface
+             */
             static void Register(const std::string &name, Interface *interface);
 
+            /**
+             * @brief Gets a pointer to the interface of a provided type that was registered under a specific name
+             * 
+             * @tparam T the Interface type
+             * @param interface the name that was used when InterfaceDB::Register was called on the registered interface
+             * @return T* a pointer to a clone of the registered interface
+             */
             template<typename T>
             static T *GetInterface(const std::string &interface)
             {
