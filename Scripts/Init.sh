@@ -11,5 +11,5 @@ TEMP_DIR=$PROJECT_DIR/BuildDependencies/temp
 mkdir -p $TEMP_DIR
 touch $TEMP_DIR/Init.log
 
-
 source $SCRIPTS/InstallBoost.sh
+source $SCRIPTS/InstallDoxygen.sh
