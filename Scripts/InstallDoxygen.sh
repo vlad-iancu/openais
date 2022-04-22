@@ -21,5 +21,5 @@ print "Installing"
 make install 2>> $TEMP_DIR/Init.log 1>> $TEMP_DIR/Init.log
 success "Doxygen Successfully Installed"
 cd $PROJECT_DIR
-BuildDependencies/doxygen/build/target/bin/doxygen -g
-cp $PROJECT_DIR/Scripts/Resources/Doxyfile.in $PROJECT_DIR
+BuildDependencies/doxygen/build/target/bin/doxygen -g 2>> $TEMP_DIR/Init.log 1>> $TEMP_DIR/Init.log
+cp $PROJECT_DIR/Scripts/Resources/Doxyfile.in $PROJECT_DIR 2>> $TEMP_DIR/Init.log 1>> $TEMP_DIR/Init.log
