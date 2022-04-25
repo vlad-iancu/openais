@@ -20,7 +20,6 @@ int Interface::GetInterfaceCount()
 
 void Interface::RegisterInterface(Interface *interface)
 {
-    std::cout << "interface counter " << counter << std::endl;
     interfaces[counter++] = interface->Clone();
 }
 
