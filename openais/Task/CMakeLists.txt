@@ -4,9 +4,23 @@ set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib)
 
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
 
-add_library(Task STATIC Task.cpp TaskMain.cpp Config.cpp CommandLine.cpp)
-target_link_libraries(Task PUBLIC InterfaceBase Boost::filesystem Boost::program_options pthread)
-target_include_directories(Task PUBLIC ${CMAKE_SOURCE_DIR}/openais)
+add_library(Task STATIC Task.cpp TaskMain.cpp)
+add_library(TaskMain STATIC TaskMain.cpp)
+add_library(TaskConfig STATIC Config.cpp)
+add_library(TaskCommandLine STATIC CommandLine.cpp)
+
+target_link_libraries(TaskMain PUBLIC pthread)
+target_link_libraries(TaskConfig PUBLIC Boost::filesystem)
+target_link_libraries(TaskCommandLine PUBLIC Boost::filesystem Boost::program_options)
+
+target_include_directories(Task PUBLIC ${CMAKE_SOURCE_DIR}/openais ${Boost_INCLUDE_DIRS})
+target_include_directories(TaskMain PUBLIC ${CMAKE_SOURCE_DIR}/openais ${Boost_INCLUDE_DIRS})
+target_include_directories(TaskConfig PUBLIC ${CMAKE_SOURCE_DIR}/openais)
+target_include_directories(TaskCommandLine PUBLIC ${CMAKE_SOURCE_DIR}/openais)
 
 set_target_properties(Task PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
+set_target_properties(TaskMain PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
+set_target_properties(TaskConfig PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
+set_target_properties(TaskCommandLine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
 
+add_subdirectory(Test)
