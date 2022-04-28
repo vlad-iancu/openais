@@ -17,13 +17,6 @@
 
 using namespace openais::task;
 
-/* #define EXTRACT_CONFIG_PARAMETER(id, type)                             \
-    boost::optional<type> id = kv.second.get_optional<type>(kv.first); \
-    if (id.has_value())                                                \
-    {                                                                  \
-        config[kv.first] = id.value();                                 \
-    }
- */
 bool g_stop = false;
 void signal_handler(int signal)
 {

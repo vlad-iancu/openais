@@ -14,7 +14,7 @@ namespace openais
 {
     namespace task
     {
-        boost::optional<std::pair<Config, Config>> ParseCommandLineOptions(int argc, char **argv, bool &help);
+        boost::optional<std::pair<Config, Config>> ParseCommandLineOptions(int argc, const char * const * const argv, bool &help);
     } // namespace task
     
 } // namespace openais

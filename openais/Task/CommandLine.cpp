@@ -25,7 +25,7 @@ static ConfigValue ToConfigValue(const string &str)
     return value;
 }
 
-boost::optional<std::pair<Config, Config>> openais::task::ParseCommandLineOptions(int argc, char **argv, bool &help)
+boost::optional<std::pair<Config, Config>> openais::task::ParseCommandLineOptions(int argc, const char * const * const argv, bool &help)
 {
     namespace po = boost::program_options;
     using tokenizer = boost::tokenizer<boost::char_separator<char>>;
@@ -60,9 +60,9 @@ boost::optional<std::pair<Config, Config>> openais::task::ParseCommandLineOption
         tokenizer tokens(configEntry, equals);
         std::vector<string> nameValue;
         std::copy(tokens.begin(), tokens.end(), std::back_inserter(nameValue));
-        if (nameValue.size() != 2)
+        if (nameValue.size() != 2 || std::any_of(nameValue.begin(), nameValue.end(), std::bind(&string::empty, std::placeholders::_1)))
         {
-            return boost::optional<std::pair<Config, Config>>(std::make_pair(Config(), Config()));
+            return boost::optional<std::pair<Config, Config>>();
         }
         std::string name = nameValue[0];
         ConfigValue value = ToConfigValue(nameValue[1]);
@@ -73,9 +73,9 @@ boost::optional<std::pair<Config, Config>> openais::task::ParseCommandLineOption
         tokenizer tokens(interfaceEntry, equals);
         std::vector<string> nameValue;
         std::copy(tokens.begin(), tokens.end(), std::back_inserter(nameValue));
-        if (nameValue.size() != 2)
+        if (nameValue.size() != 2 || std::any_of(nameValue.begin(), nameValue.end(), std::bind(&string::empty, std::placeholders::_1)))
         {
-            return boost::optional<std::pair<Config, Config>>(std::make_pair(Config(), Config()));
+            return boost::optional<std::pair<Config, Config>>();
         }
         std::string name = nameValue[0];
         ConfigValue value = nameValue[1];
