@@ -44,7 +44,7 @@ bool Interface::IsActive() const
     return m_active;
 }
 
-void Interface::IsActive(bool active)
+void Interface::SetActive(bool active)
 {
     m_active = active;
 }

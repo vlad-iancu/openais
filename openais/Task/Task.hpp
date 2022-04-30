@@ -56,6 +56,39 @@ namespace openais
              * @return string 
              */
             virtual string GetConfigFileName() const = 0;
+
+        public:
+            /**
+             * @brief Runs the task
+             * 
+             * @param frequency_hz The number of times to call Executive() in a second
+             */
+            void Run(double frequency_hz);    
+
+            /**
+             * @brief Stops the task
+             * 
+             */
+            void Stop();
+
+            /**
+             * @brief Whether this task is active or not
+             * 
+             */
+            bool IsActive() const;
+
+
+        protected:
+            /**
+             * @brief Marks the task as active or inactive
+             * 
+             * @param active 
+             */
+            void SetActive(bool active);
+            
+        private:
+            bool m_active = false;
+
         };
     } // namespace task
 

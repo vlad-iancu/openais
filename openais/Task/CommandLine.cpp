@@ -72,6 +72,7 @@ boost::optional<std::pair<Config, Config>> openais::task::ParseCommandLineOption
     {
         tokenizer tokens(interfaceEntry, equals);
         std::vector<string> nameValue;
+        
         std::copy(tokens.begin(), tokens.end(), std::back_inserter(nameValue));
         if (nameValue.size() != 2 || std::any_of(nameValue.begin(), nameValue.end(), std::bind(&string::empty, std::placeholders::_1)))
         {
