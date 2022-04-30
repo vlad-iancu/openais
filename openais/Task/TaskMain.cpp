@@ -15,78 +15,101 @@
 #include <iostream>
 #include <variant>
 
-using namespace openais::task;
-
-bool g_stop = false;
-void signal_handler(int signal)
+namespace openais
 {
-    g_stop = true;
-}
-
-void AttachSignals()
-{
-    signal(SIGTERM, signal_handler);
-    signal(SIGINT, signal_handler);
-    signal(SIGSEGV, signal_handler);
-    signal(SIGBUS, signal_handler);
-    signal(SIGABRT, signal_handler);
-}
-
-void RegisterInterfaces(const Config &config)
-{
-    using namespace openais::interface;
-    for (const auto &kv : config)
+    namespace task
     {
-        std::string interfaceDbName = kv.first;
-        std::string interfaceName = std::get<string>(kv.second);
+        void signal_handler(int signal)
+        {
+            Task::task->Stop();
+        }
 
-        Interface *iface = Interface::GetInterface(interfaceName);
-        if(!iface) continue;
+        void AttachSignals()
+        {
+            signal(SIGTERM, signal_handler);
+            signal(SIGINT, signal_handler);
+            signal(SIGSEGV, signal_handler);
+            signal(SIGBUS, signal_handler);
+            signal(SIGABRT, signal_handler);
+        }
 
-        InterfaceDB::Register(interfaceDbName, iface);
-    }
-}
+        void RegisterInterfaces(const Config &config)
+        {
+            using namespace openais::interface;
+            for (const auto &kv : config)
+            {
+                std::string interfaceDbName = kv.first;
+                std::string interfaceName = std::get<string>(kv.second);
 
-int main(int argc, char **argv)
-{
-    AttachSignals();
+                Interface *iface = Interface::GetInterface(interfaceName);
+                if (!iface)
+                    continue;
 
-    JsonConfig jsonConfig;
+                InterfaceDB::Register(interfaceDbName, iface);
+            }
+        }
 
-    boost::property_tree::read_json(Task::task->GetConfigFileName(), jsonConfig);
+        int Main(int argc, char **argv)
+        {
+            AttachSignals();
 
-    Config taskConfig = ParseJsonConfig(jsonConfig.get_child("config"));
-    Config interfaceConfig = ParseJsonConfig(jsonConfig.get_child("interfaces"));
-    bool help;
-    boost::optional<std::pair<Config, Config>> commandLineOptions = ParseCommandLineOptions(argc, argv, help);
-    if(help)
-    {
-        return 0;
-    }
-    if(!commandLineOptions.has_value())
-    {
-        std::cout << "Incorrect command line arguments" << std::endl;
-        return -1;
-    }
-    Config &taskCommandLineConfig = commandLineOptions.value().first;
-    Config &interfaceCommandLineConfig = commandLineOptions.value().second;
-    for(const auto &[k, v] : taskCommandLineConfig)
-    {
-        taskConfig[k] = v;
-    }
-    for(const auto &[k, v] : interfaceCommandLineConfig)
-    {
-        interfaceConfig[k] = v;
-    }
-    
-    RegisterInterfaces(interfaceConfig);
-    uint64_t sleep_time = (uint64_t)((1.0 / std::get<double>(taskConfig["frequency_hz"]) * 1E6));
-    Task::task->Initialize(taskConfig);
-    while (!g_stop)
-    {
-        Task::task->Executive();
-        std::this_thread::sleep_for(std::chrono::microseconds(sleep_time));
-    }
-    Task::task->Clean();
-    return 0;
-}
+            JsonConfig jsonConfig;
+
+            try
+            {
+                boost::property_tree::read_json(Task::task->GetConfigFileName(), jsonConfig);
+            }
+            catch(const std::exception& e)
+            {
+                std::cout << "Warning: config file " << Task::task->GetConfigFileName() << " could not be parsed" << std::endl;
+            }
+            
+            Config taskConfig;
+            Config interfaceConfig;
+
+            try
+            {
+                taskConfig = ParseJsonConfig(jsonConfig.get_child("config"));
+                interfaceConfig = ParseJsonConfig(jsonConfig.get_child("interfaces"));
+            }
+            catch(const boost::property_tree::ptree_bad_path& e)
+            {
+                std::cerr << e.what() << '\n';
+            }
+
+            bool help;
+            boost::optional<std::pair<Config, Config>> commandLineOptions = ParseCommandLineOptions(argc, argv, help);
+            if (help)
+            {
+                return 0;
+            }
+            if (!commandLineOptions.has_value())
+            {
+                std::cout << "Incorrect command line arguments" << std::endl;
+                return -1;
+            }
+            Config &taskCommandLineConfig = commandLineOptions.value().first;
+            Config &interfaceCommandLineConfig = commandLineOptions.value().second;
+            for (const auto &[k, v] : taskCommandLineConfig)
+            {
+                taskConfig[k] = v;
+            }
+            for (const auto &[k, v] : interfaceCommandLineConfig)
+            {
+                interfaceConfig[k] = v;
+            }
+
+            RegisterInterfaces(interfaceConfig);
+
+            double frequency_hz = std::get<double>(taskConfig["frequency_hz"]);
+
+            Task::task->Initialize(taskConfig);
+            Task::task->Run(frequency_hz);
+            Task::task->Clean();
+
+            return 0;
+        }
+
+    } // namespace task
+
+} // namespace openais

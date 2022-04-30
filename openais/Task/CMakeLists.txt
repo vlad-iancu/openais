@@ -8,10 +8,12 @@ add_library(Task STATIC Task.cpp TaskMain.cpp)
 add_library(TaskMain STATIC TaskMain.cpp)
 add_library(TaskConfig STATIC Config.cpp)
 add_library(TaskCommandLine STATIC CommandLine.cpp)
+add_library(Main STATIC Main.cpp)
 
-target_link_libraries(TaskMain PUBLIC pthread)
+target_link_libraries(TaskMain PUBLIC TaskCommandLine TaskConfig pthread)
 target_link_libraries(TaskConfig PUBLIC Boost::filesystem)
 target_link_libraries(TaskCommandLine PUBLIC Boost::filesystem Boost::program_options)
+target_link_libraries(Main PUBLIC TaskMain)
 
 target_include_directories(Task PUBLIC ${CMAKE_SOURCE_DIR}/openais ${Boost_INCLUDE_DIRS})
 target_include_directories(TaskMain PUBLIC ${CMAKE_SOURCE_DIR}/openais ${Boost_INCLUDE_DIRS})

@@ -30,12 +30,12 @@ std::string ClassName::GetInterfaceName`()' const
 
 bool ClassName::Start`()'
 {
-    IsActive`(true)';
+    SetActive`(true)';
     return true;
 }
 
 bool ClassName::Stop`()'
 {
-    IsActive`(false)';
+    SetActive`(false)';
     return true;
 }

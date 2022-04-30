@@ -24,14 +24,12 @@ namespace openais
              * 
              */
             static int counter;
+
             /**
              * @brief Self-registered prototypes storage
              * 
              */
             static Interface *interfaces[MAX_INTERFACES];
-
-        private:
-            bool m_active = false;
 
         protected:
             static void RegisterInterface(Interface *interface);
@@ -44,6 +42,7 @@ namespace openais
              * @return Interface* 
              */
             static Interface *GetInterface(int index);
+
             /**
              * @brief Gets an Interface prototype
              * 
@@ -51,6 +50,7 @@ namespace openais
              * @return Interface* 
              */
             static Interface *GetInterface(const std::string &name);
+
             /**
              * @brief Get the number of interface prototypes
              * 
@@ -65,6 +65,7 @@ namespace openais
              * @return Interface* 
              */
             virtual Interface *Clone() const = 0;
+
             /**
              * @brief Get the name of the current Interface.
              * This name is used as value in the `interfaces` json array in Task
@@ -73,29 +74,36 @@ namespace openais
              * @return std::string 
              */
             virtual std::string GetInterfaceName() const = 0;
+
             /**
              * @brief Starts the current Interface object
              * 
              * @return true if the operation was successful, false otherwise
              */
             virtual bool Start() = 0;
+
             /**
              * @brief Stops the interface
              * 
              * @return true if the operation was successful, false otherwise
              */
             virtual bool Stop() = 0;
+
             /** 
              * 
              * @return wheter the interface is active or not
              */
             bool IsActive() const;
+
             /**
              * @brief Marks the current Interface object as active or inactive
              * 
              * @param active
              */
-            void IsActive(bool active);
+            void SetActive(bool active);
+
+        private:
+            bool m_active = false;
         };
     } // namespace interface
 
