@@ -1,5 +1,5 @@
-#ifndef OPENAIS_TASK_H
-#define OPENAIS_TASK_H
+#ifndef OPENAIS_TASK_TASK_H
+#define OPENAIS_TASK_TASK_H
 
 #include <Task/Config.hpp>
 

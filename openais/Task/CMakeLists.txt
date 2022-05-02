@@ -25,4 +25,7 @@ set_target_properties(TaskMain PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINAR
 set_target_properties(TaskConfig PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
 set_target_properties(TaskCommandLine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
 
+if(ENABLE_TESTING)
 add_subdirectory(Test)
+endif()
+
