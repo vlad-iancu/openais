@@ -4,7 +4,7 @@ set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib)
 
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
 
-add_library(Task STATIC Task.cpp TaskMain.cpp)
+add_library(Task STATIC Task.cpp PeriodicTask.cpp)
 add_library(TaskMain STATIC TaskMain.cpp)
 add_library(TaskConfig STATIC Config.cpp)
 add_library(TaskCommandLine STATIC CommandLine.cpp)

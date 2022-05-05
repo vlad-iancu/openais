@@ -1,4 +1,5 @@
 #include <Task/Task.hpp>
+#include <Task/PeriodicTask.hpp>
 
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
@@ -11,7 +12,7 @@
 using namespace openais::task;
 using testing::NiceMock;
 
-class TaskMock : public Task
+class TaskMock : public PeriodicTask
 {
 public:
     Task *Clone() const override
@@ -43,7 +44,7 @@ TEST(TaskTest, Run)
     NiceMock<TaskMock> mockTask;
     EXPECT_CALL(mockTask, Executive()).Times(AnyNumber());
 
-    std::future<void> taskFuture = std::async(std::bind(&TaskMock::Run, &mockTask, 0));
+    std::future<void> taskFuture = std::async(std::bind(&TaskMock::Run, &mockTask));
     std::this_thread::sleep_for(std::chrono::microseconds(5)); //Acceptable
     
     EXPECT_THAT(mockTask.IsActive(), Eq(true));
