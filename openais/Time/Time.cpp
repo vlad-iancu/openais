@@ -6,29 +6,30 @@ using namespace openais::time;
 
 TimeStamp Time::present;
 
-TimeStamp Time::Now()
+TimeStamp Time::GetPresentTime()
 {
     using namespace std::chrono;
     TimeStamp ns = duration_cast<nanoseconds>(Clock::now().time_since_epoch()).count();
     return ns;
 }
 
+TimeStamp Time::Now()
+{
+    return std::max(GetPresentTime(), present);
+}
+
 void Time::Sleep(TimeVal time)
 {
-    TimeStamp now = Now();
-    TimeStamp present = std::max(GetPresentTime(), now);
+    //Done this way so that if there is no MoveTimeForward call sleepTime should be zero and sleep_for call would be ignored
+    TimeStamp now = GetPresentTime();
+    TimeStamp present = std::max(Now(), now);
     TimeVal sleepTime = time - (present - now);
     std::this_thread::sleep_for(std::chrono::nanoseconds(sleepTime));
 }
 
 void Time::MoveTimeForward(TimeVal time)
 {
-    present = Now() + time;
-}
-
-TimeStamp Time::GetPresentTime()
-{
-    return present;
+    present = std::max(GetPresentTime(), Now()) + time;
 }
 
 TimeVal Time::Nanoseconds(TimeVal nanos)
