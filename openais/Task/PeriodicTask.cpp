@@ -14,6 +14,7 @@ void PeriodicTask::Run()
         Executive();
         std::this_thread::sleep_for(std::chrono::microseconds(sleep_time_micro));
     }
+    SetActive(false);
 }
 
 double PeriodicTask::GetFrequency() const 

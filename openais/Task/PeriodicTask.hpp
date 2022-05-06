@@ -7,6 +7,10 @@ namespace openais
 {
     namespace task
     {
+        /**
+         * @brief A task that has a periodic execution
+         * 
+         */
         class PeriodicTask : public Task
         {
         protected:
@@ -16,7 +20,17 @@ namespace openais
             void Run() override;
         
         public:
+            /**
+             * @brief Get the frequency at which Executive is run
+             * 
+             * @return double
+             */
             double GetFrequency() const;
+            
+            /**
+             * @brief Sets the frequency at which Executive is run
+             * 
+             */
             void SetFrequency(double frequency);
         };
     } // namespace task

@@ -36,7 +36,6 @@ namespace openais
 
             /**
              * @brief Defines what the task does
-             * This method will be periodically executed at `(1 / frequency_hz) seconds`
              * 
              */
             virtual void Executive() = 0;
