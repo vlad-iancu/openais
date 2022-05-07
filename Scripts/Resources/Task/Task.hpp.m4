@@ -4,7 +4,7 @@ define(SAMPLE_TASK_CONFIG_FILENAME, `translit(taskName, `a-z', `A-Z')`_TASK_CONF
 `#ifndef' HEADER_GUARD
 `#define' HEADER_GUARD
 
-`#include' <Task/Task.hpp>
+`#include' <Task/TaskType.hpp>
 
 
 `#ifndef' SAMPLE_TASK_CONFIG_FILENAME
@@ -15,7 +15,7 @@ namespace openais
 {
     namespace task
     {
-        class SampleTask : Task
+        class SampleTask : TaskType
         {
         private:
             static SampleTask _task;

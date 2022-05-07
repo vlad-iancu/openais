@@ -36,7 +36,6 @@ namespace openais
 
             /**
              * @brief Defines what the task does
-             * This method will be periodically executed at `(1 / frequency_hz) seconds`
              * 
              */
             virtual void Executive() = 0;
@@ -57,14 +56,13 @@ namespace openais
              */
             virtual string GetConfigFileName() const = 0;
 
-        public:
             /**
              * @brief Runs the task
              * 
-             * @param frequency_hz The number of times to call Executive() in a second
              */
-            void Run(double frequency_hz);    
+            virtual void Run() = 0;
 
+        public: 
             /**
              * @brief Stops the task
              * 

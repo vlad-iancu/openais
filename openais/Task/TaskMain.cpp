@@ -1,6 +1,8 @@
 #include <Task/Task.hpp>
 #include <Task/Config.hpp>
 #include <Task/CommandLine.hpp>
+#include <Task/PeriodicTask.hpp>
+#include <Task/ContinualTask.hpp>
 
 #include <Interface/InterfaceDB.hpp>
 #include <Interface/Interface.hpp>
@@ -59,11 +61,11 @@ namespace openais
             {
                 boost::property_tree::read_json(Task::task->GetConfigFileName(), jsonConfig);
             }
-            catch(const std::exception& e)
+            catch (const std::exception &e)
             {
                 std::cout << "Warning: config file " << Task::task->GetConfigFileName() << " could not be parsed" << std::endl;
             }
-            
+
             Config taskConfig;
             Config interfaceConfig;
 
@@ -72,7 +74,7 @@ namespace openais
                 taskConfig = ParseJsonConfig(jsonConfig.get_child("config"));
                 interfaceConfig = ParseJsonConfig(jsonConfig.get_child("interfaces"));
             }
-            catch(const boost::property_tree::ptree_bad_path& e)
+            catch (const boost::property_tree::ptree_bad_path &e)
             {
                 std::cerr << e.what() << '\n';
             }
@@ -101,11 +103,22 @@ namespace openais
 
             RegisterInterfaces(interfaceConfig);
 
-            double frequency_hz = std::get<double>(taskConfig["frequency_hz"]);
-
-            Task::task->Initialize(taskConfig);
-            Task::task->Run(frequency_hz);
-            Task::task->Clean();
+            double frequencyHz = std::get<double>(taskConfig["frequency_hz"]);
+            PeriodicTask *periodicTask = dynamic_cast<PeriodicTask *>(Task::task);
+            ContinualTask *continualTask = dynamic_cast<ContinualTask *>(Task::task);
+            if (periodicTask)
+            {
+                periodicTask->SetFrequency(frequencyHz);
+                periodicTask->Initialize(taskConfig);
+                periodicTask->Run();
+                periodicTask->Clean();
+            }
+            if(continualTask)
+            {
+                continualTask->Initialize(taskConfig);
+                continualTask->Run();
+                continualTask->Clean();
+            }
 
             return 0;
         }

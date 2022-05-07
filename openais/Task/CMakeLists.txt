@@ -4,13 +4,13 @@ set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib)
 
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
 
-add_library(Task STATIC Task.cpp TaskMain.cpp)
+add_library(Task STATIC Task.cpp PeriodicTask.cpp ContinualTask.cpp)
 add_library(TaskMain STATIC TaskMain.cpp)
 add_library(TaskConfig STATIC Config.cpp)
 add_library(TaskCommandLine STATIC CommandLine.cpp)
 add_library(Main STATIC Main.cpp)
 
-target_link_libraries(TaskMain PUBLIC TaskCommandLine TaskConfig pthread)
+target_link_libraries(TaskMain PUBLIC TaskCommandLine TaskConfig Task pthread)
 target_link_libraries(TaskConfig PUBLIC Boost::filesystem)
 target_link_libraries(TaskCommandLine PUBLIC Boost::filesystem Boost::program_options)
 target_link_libraries(Main PUBLIC TaskMain)
