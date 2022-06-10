@@ -1,5 +1,6 @@
 define(HEADER_GUARD, translit(taskName, `a-z', `A-Z')`_TASK_H')dnl
 define(SampleTask, `taskName`Task'')dnl
+define(TaskType, `taskType`Task'')
 define(SAMPLE_TASK_CONFIG_FILENAME, `translit(taskName, `a-z', `A-Z')`_TASK_CONFIG_FILENAME'')dnl
 `#ifndef' HEADER_GUARD
 `#define' HEADER_GUARD
@@ -8,7 +9,7 @@ define(SAMPLE_TASK_CONFIG_FILENAME, `translit(taskName, `a-z', `A-Z')`_TASK_CONF
 
 
 `#ifndef' SAMPLE_TASK_CONFIG_FILENAME
-`#define' SAMPLE_TASK_CONFIG_FILENAME "config.json"
+`#define' SAMPLE_TASK_CONFIG_FILENAME "config.py"
 `#endif'
 
 namespace openais

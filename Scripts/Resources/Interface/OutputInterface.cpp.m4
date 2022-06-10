@@ -1,5 +1,5 @@
 define(ClassName, ``Output'interfaceName`Interface'')dnl
-`#include'<ClassName.hpp>
+`#include' <ClassName.hpp>
 
 using namespace openais::interfaces;
 
