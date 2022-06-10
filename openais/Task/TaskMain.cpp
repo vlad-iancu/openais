@@ -1,6 +1,6 @@
+#define PY_SSIZE_T_CLEAN
 #include <Task/Task.hpp>
 #include <Task/Config.hpp>
-#include <Task/CommandLine.hpp>
 #include <Task/PeriodicTask.hpp>
 #include <Task/ContinualTask.hpp>
 
@@ -13,6 +13,7 @@
 #include <csignal>
 #include <chrono>
 #include <thread>
+#include <filesystem>
 #include <algorithm>
 #include <iostream>
 #include <variant>
@@ -38,88 +39,67 @@ namespace openais
         void RegisterInterfaces(const Config &config)
         {
             using namespace openais::interface;
-            for (const auto &kv : config)
+            for (const auto &interface : config)
             {
-                std::string interfaceDbName = kv.first;
-                std::string interfaceName = std::get<string>(kv.second);
-
+                const boost::ptr_vector<Config> &vec = interface.Get<const boost::ptr_vector<Config> &>();
+                std::string interfaceDbName = interface.Get<const boost::ptr_vector<Config> &>()[0].Get<string>();
+                std::string interfaceName = interface.Get<const boost::ptr_vector<Config> &>()[1].Get<string>();
                 Interface *iface = Interface::GetInterface(interfaceName);
                 if (!iface)
+                {
                     continue;
+                }
 
                 InterfaceDB::Register(interfaceDbName, iface);
             }
         }
 
+        void GetPythonConfig(string module, Config &config)
+        {
+            PyObject *pModule, *pModuleDict;
+            pModule = PyImport_ImportModule(module.c_str());
+            pModuleDict = PyModule_GetDict(pModule);
+            config.FromPythonObject(pModuleDict);
+        }
+
         int Main(int argc, char **argv)
         {
-            AttachSignals();
 
-            JsonConfig jsonConfig;
+            AttachSignals();
+            Config config;
 
             try
             {
-                boost::property_tree::read_json(Task::task->GetConfigFileName(), jsonConfig);
+                std::filesystem::path configPath(Task::task->GetConfigFileName());
+                setenv("PYTHONPATH", configPath.parent_path().c_str(), 1);
+                Py_Initialize();
+                GetPythonConfig(configPath.replace_extension("").filename().c_str(), config);
             }
             catch (const std::exception &e)
             {
-                std::cout << "Warning: config file " << Task::task->GetConfigFileName() << " could not be parsed" << std::endl;
+                std::cout << "Error at parsing config file" << std::endl;
+                return 1;
             }
 
-            Config taskConfig;
-            Config interfaceConfig;
+            RegisterInterfaces(config["Interfaces"]);
 
-            try
-            {
-                taskConfig = ParseJsonConfig(jsonConfig.get_child("config"));
-                interfaceConfig = ParseJsonConfig(jsonConfig.get_child("interfaces"));
-            }
-            catch (const boost::property_tree::ptree_bad_path &e)
-            {
-                std::cerr << e.what() << '\n';
-            }
-
-            bool help;
-            boost::optional<std::pair<Config, Config>> commandLineOptions = ParseCommandLineOptions(argc, argv, help);
-            if (help)
-            {
-                return 0;
-            }
-            if (!commandLineOptions.has_value())
-            {
-                std::cout << "Incorrect command line arguments" << std::endl;
-                return -1;
-            }
-            Config &taskCommandLineConfig = commandLineOptions.value().first;
-            Config &interfaceCommandLineConfig = commandLineOptions.value().second;
-            for (const auto &[k, v] : taskCommandLineConfig)
-            {
-                taskConfig[k] = v;
-            }
-            for (const auto &[k, v] : interfaceCommandLineConfig)
-            {
-                interfaceConfig[k] = v;
-            }
-
-            RegisterInterfaces(interfaceConfig);
-
-            double frequencyHz = std::get<double>(taskConfig["frequency_hz"]);
+            double frequencyHz = config["frequencyHz"].Get<double>();
             PeriodicTask *periodicTask = dynamic_cast<PeriodicTask *>(Task::task);
             ContinualTask *continualTask = dynamic_cast<ContinualTask *>(Task::task);
             if (periodicTask)
             {
                 periodicTask->SetFrequency(frequencyHz);
-                periodicTask->Initialize(taskConfig);
+                periodicTask->Initialize(config);
                 periodicTask->Run();
                 periodicTask->Clean();
             }
-            if(continualTask)
+            if (continualTask)
             {
-                continualTask->Initialize(taskConfig);
+                continualTask->Initialize(config);
                 continualTask->Run();
                 continualTask->Clean();
             }
-
+            Py_Finalize();
             return 0;
         }
 
