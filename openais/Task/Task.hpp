@@ -29,8 +29,8 @@ namespace openais
              * This method usually initalizes the Interface members of the task
              * and aquires the resources that will be used 
              * 
-             * @param config The JSON configuration parameters declared in the `config` 
-             * member of the `config.json` of this Task
+             * @param config The Python configuration parameters declared in the `config` 
+             * member of the `config.py` of this Task
              */
             virtual void Initialize(const Config &config) = 0;
 
