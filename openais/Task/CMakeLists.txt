@@ -3,8 +3,7 @@ set(BOOST_INCLUDEDIR ${BOOST_ROOT}/include)
 set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib)
 
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
-include(FindPkgConfig)
-pkg_search_module(PYTHON REQUIRED python3-embed)
+include("Python.cmake")
 
 add_library(Task STATIC Task.cpp PeriodicTask.cpp ContinualTask.cpp)
 add_library(TaskMain STATIC TaskMain.cpp)
@@ -23,10 +22,6 @@ target_include_directories(TaskMain PUBLIC ${CMAKE_SOURCE_DIR}/openais ${Boost_I
 target_include_directories(TaskConfig PUBLIC ${CMAKE_SOURCE_DIR}/openais ${PYTHON_INCLUDE_DIRS})
 #target_include_directories(TaskCommandLine PUBLIC ${CMAKE_SOURCE_DIR}/openais)
 
-message(STATUS "Python Include are: ${PYTHON_INCLUDE_DIRS}")
-message(STATUS "Python Libs are: ${PYTHON_LIBRARIES}")
-message(STATUS "Python Cflags are: ${PYTHON_CFLAGS_OTHER}")
-message(STATUS "Boost libs: ${Boost_LIBRARIES}")
 target_compile_options(TaskConfig PUBLIC ${PYTHON_CFLAGS_OTHER})
 
 set_target_properties(Task PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
