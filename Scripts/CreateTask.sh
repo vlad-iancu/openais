@@ -14,5 +14,5 @@ m4 --define=taskName=$TASK_NAME ${RESOURCES}/CMakeLists.txt.Test.m4 > ${TASK_DIR
 
 cp ${RESOURCES}/${TASK_TYPE}TaskConfig.py ${TASK_DIR}/config.py
 
-#usage Scripts/CreateTask Example Periodic
-#usage Scripts/CreateTask Example Continual
+#usage Scripts/CreateTask.sh Example Periodic
+#usage Scripts/CreateTask.sh Example Continual
