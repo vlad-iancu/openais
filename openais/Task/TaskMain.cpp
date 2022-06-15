@@ -83,11 +83,11 @@ namespace openais
 
             RegisterInterfaces(config["Interfaces"]);
 
+            double frequencyHz = config["frequencyHz"].Get<double>();
             PeriodicTask *periodicTask = dynamic_cast<PeriodicTask *>(Task::task);
             ContinualTask *continualTask = dynamic_cast<ContinualTask *>(Task::task);
             if (periodicTask)
             {
-                double frequencyHz = config["frequencyHz"].Get<double>();
                 periodicTask->SetFrequency(frequencyHz);
                 periodicTask->Initialize(config);
                 periodicTask->Run();
