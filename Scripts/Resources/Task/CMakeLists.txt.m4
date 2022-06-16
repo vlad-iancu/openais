@@ -8,7 +8,7 @@ define(SAMPLE_TASK_CONFIG_FILENAME, `translit(taskName, `a-z', `A-Z')`_TASK_CONF
 `target_compile_definitions'(SampleTask PUBLIC SAMPLE_TASK_CONFIG_FILENAME=ConfigFile)
 `set_target_properties'(SampleTask PROPERTIES RUNTIME_OUTPUT_DIRECTORY `"${CMAKE_BINARY_DIR}/Bin/"')
 
-`configure_file'(`${CMAKE_CURRENT_SOURCE_DIR}/config.py' ConfigFile)
+`configure_file'(`${CMAKE_CURRENT_SOURCE_DIR}/config.py' ConfigFile COPYONLY)
 `if(ENABLE_TESTING)'
 `add_subdirectory(Test)'
 `endif()'

@@ -22,13 +22,6 @@ target_include_directories(TaskMain PUBLIC ${CMAKE_SOURCE_DIR}/openais ${Boost_I
 target_include_directories(TaskConfig PUBLIC ${CMAKE_SOURCE_DIR}/openais ${PYTHON_INCLUDE_DIRS})
 #target_include_directories(TaskCommandLine PUBLIC ${CMAKE_SOURCE_DIR}/openais)
 
-<<<<<<< HEAD
-=======
-message(STATUS "Python Include are: ${PYTHON_INCLUDE_DIRS}")
-message(STATUS "Python Libs are: ${PYTHON_LIBRARIES}")
-message(STATUS "Python Cflags are: ${PYTHON_CFLAGS_OTHER}")
-message(STATUS "Boost libs: ${Boost_LIBRARIES}")
->>>>>>> main
 target_compile_options(TaskConfig PUBLIC ${PYTHON_CFLAGS_OTHER})
 
 set_target_properties(Task PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
