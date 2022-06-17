@@ -68,8 +68,7 @@ namespace openais
 
             /**
              * @brief Get the name of the current Interface.
-             * This name is used as value in the `interfaces` json array in Task
-             * `config.json` files
+             * This name is used as value in the `Interfaces` python dict in Task `config.py` files
              * 
              * @return std::string 
              */
