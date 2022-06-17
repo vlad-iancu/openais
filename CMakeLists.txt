@@ -29,4 +29,5 @@ add_custom_target(docs
 add_subdirectory(openais)
 add_subdirectory(Interfaces)
 add_subdirectory(Tasks)
+include("Config/Config.cmake")
 

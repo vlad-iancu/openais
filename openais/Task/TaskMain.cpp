@@ -82,7 +82,16 @@ namespace openais
 
             RegisterInterfaces(config["Interfaces"]);
 
-            double frequencyHz = config["frequencyHz"].Get<double>();
+            double frequencyHz;
+            try
+            {
+                frequencyHz = config["frequencyHz"].Get<double>();
+            }
+            catch (const std::exception &e)
+            {
+                // frequencyHz not present
+            }
+
             PeriodicTask *periodicTask = dynamic_cast<PeriodicTask *>(Task::task);
             ContinualTask *continualTask = dynamic_cast<ContinualTask *>(Task::task);
             if (periodicTask)

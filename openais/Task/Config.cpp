@@ -8,23 +8,27 @@ using namespace openais::task;
 
 void Config::FromPythonObject(PyObject *obj)
 {
+    if (PyCallable_Check(obj))
+    {
+        return;
+    }
     // std::unique_ptr<Config> config = std::make_unique<Config>(obj);
     m_value = obj;
     if (PyLong_Check(obj))
     {
-        // std::cout << "We have a long: " << PyLong_AsLong(m_value) << std::endl;
+        //std::cout << "We have a long: " << PyLong_AsLong(m_value) << std::endl;
     }
     else if (PyFloat_Check(obj))
     {
-        // std::cout << "We have a float: " << PyFloat_AsDouble(m_value) << std::endl;
+        //std::cout << "We have a float: " << PyFloat_AsDouble(m_value) << std::endl;
     }
     else if (PyUnicode_Check(obj))
     {
-        // std::cout << "We have a string: " << PyUnicode_AsUTF8(m_value) << std::endl;
+        //std::cout << "We have a string: " << PyUnicode_AsUTF8(m_value) << std::endl;
     }
     else if (PyList_Check(obj))
     {
-        // std::cout << "We have a list" << obj  << std::endl;
+        //std::cout << "We have a list" << obj << std::endl;
         for (Py_ssize_t i = 0; i < PyList_Size(obj); i++)
         {
             PyObject *pItem = PyList_GetItem(obj, i);
@@ -35,7 +39,6 @@ void Config::FromPythonObject(PyObject *obj)
     }
     else if (PyTuple_Check(obj))
     {
-        // std::cout << "We have a tuple " << obj << std::endl;
         for (Py_ssize_t i = 0; i < PyTuple_Size(obj); i++)
         {
             PyObject *pItem = PyTuple_GetItem(obj, i);
@@ -46,7 +49,6 @@ void Config::FromPythonObject(PyObject *obj)
     }
     else if (PyDict_Check(obj))
     {
-        // std::cout << "We have a dict " << obj << std::endl;
         PyObject *pDictItems, *pItem;
         pDictItems = PyDict_Items(obj);
         for (Py_ssize_t i = 0; i < PyList_Size(pDictItems); i++)
@@ -56,6 +58,37 @@ void Config::FromPythonObject(PyObject *obj)
             Config *config = new Config();
             config->FromPythonObject(pItem);
             m_children.push_back(config);
+        }
+    }
+    else
+    {
+        //std::cout << "We have an object" << std::endl;
+        PyObject *pAttrs = PyObject_Dir(obj);
+        PyObject *pElement;
+        PyObject *pItem;
+        PyObject *pEntry;
+        PyObject *pName;
+        for (Py_ssize_t i = 0; i < PyList_Size(pAttrs); i++)
+        {
+            pElement = PyList_GetItem(pAttrs, i);
+            const char *fieldName = PyUnicode_AsUTF8(pElement);
+            // if field is not a "dunder"
+            if (strncmp(fieldName, "__", 2) ||
+                strncmp(fieldName + (strlen(fieldName) - 2), "__", 2))
+            {
+                pItem = PyObject_GetAttrString(obj, fieldName);
+                if (PyCallable_Check(pItem))
+                {
+                    continue;
+                }
+                pEntry = PyTuple_New(2);
+                pName = PyUnicode_FromString(fieldName);
+                PyTuple_SetItem(pEntry, 0, pName);
+                PyTuple_SetItem(pEntry, 1, pItem);
+                Config *config = new Config();
+                config->FromPythonObject(pEntry);
+                m_children.push_back(config);
+            }
         }
     }
 }
@@ -68,6 +101,46 @@ long Config::Get<long>() const
         throw std::runtime_error("Config does not hold a long value");
     }
     return PyLong_AsLong(m_value);
+}
+
+template <>
+int Config::Get<int>() const
+{
+    if (!PyLong_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold an int value");
+    }
+    return (int)PyLong_AsLong(m_value);
+}
+
+template <>
+short Config::Get<short>() const
+{
+    if (!PyLong_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold a short value");
+    }
+    return (short)PyLong_AsLong(m_value);
+}
+
+template <>
+unsigned Config::Get<unsigned>() const
+{
+    if (!PyLong_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold an unsigned value");
+    }
+    return (unsigned)PyLong_AsLong(m_value);
+}
+
+template <>
+unsigned long Config::Get<unsigned long>() const
+{
+    if (!PyLong_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold an unsigned long value");
+    }
+    return (unsigned long)PyLong_AsLong(m_value);
 }
 
 template <>
@@ -95,7 +168,7 @@ double Config::Get<double>() const
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wreturn-local-addr" */
 template <>
-const boost::ptr_vector<Config>& Config::Get<const boost::ptr_vector<Config>&>() const
+const boost::ptr_vector<Config> &Config::Get<const boost::ptr_vector<Config> &>() const
 {
     if (!PyList_Check(m_value) && !PyTuple_Check(m_value))
     {
@@ -108,6 +181,22 @@ const boost::ptr_vector<Config>& Config::Get<const boost::ptr_vector<Config>&>()
 const Config &Config::operator[](const std::string &name) const
 {
     if (PyDict_Check(m_value))
+    {
+        for (const Config &config : m_children)
+        {
+            PyObject *pItem = config.m_value;
+            PyObject *pKey = PyTuple_GetItem(pItem, 0);
+            if (PyUnicode_Check(pKey))
+            {
+                const char *keyName = PyUnicode_AsUTF8(pKey);
+                if (!strcmp(keyName, name.c_str()))
+                {
+                    return config.m_children[1];
+                }
+            }
+        }
+    }
+    if (PyObject_HasAttrString(m_value, name.c_str()))
     {
         for (const Config &config : m_children)
         {
