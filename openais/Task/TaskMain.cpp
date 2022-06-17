@@ -90,7 +90,7 @@ namespace openais
             }
             catch (const std::exception &e)
             {
-                //frequencyHz not present
+                // frequencyHz not present
             }
 
             PeriodicTask *periodicTask = dynamic_cast<PeriodicTask *>(Task::task);
