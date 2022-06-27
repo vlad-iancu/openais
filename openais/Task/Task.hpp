@@ -54,7 +54,7 @@ namespace openais
              * 
              * @return string 
              */
-            virtual string GetConfigFileName() const = 0;
+            virtual std::string GetConfigFileName() const = 0;
 
             /**
              * @brief Runs the task

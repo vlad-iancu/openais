@@ -2,4 +2,7 @@ BuildDependencies/
 Build/
 .vscode/
 docs/
-openais/Task/Python.cmake
+openais/Python.cmake
+compile_commands.json
+pyrightconfig.json
+.cache

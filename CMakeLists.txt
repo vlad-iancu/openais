@@ -27,7 +27,10 @@ add_custom_target(docs
 )
 
 add_subdirectory(openais)
+add_subdirectory(Loggers)
+message(STATUS "Loggers libs: ${LOGGER_LIBS}")
 add_subdirectory(Interfaces)
 add_subdirectory(Tasks)
+#Multiple definition in ld is because of -Wl,--whole-archive, find a way around that
 include("Config/Config.cmake")
 

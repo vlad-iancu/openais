@@ -4,6 +4,8 @@
 #include <Task/PeriodicTask.hpp>
 #include <Task/ContinualTask.hpp>
 
+#include <Logger/Logger.hpp>
+
 #include <Interface/InterfaceDB.hpp>
 #include <Interface/Interface.hpp>
 
@@ -41,8 +43,8 @@ namespace openais
             for (const auto &interface : config)
             {
                 const boost::ptr_vector<Config> &vec = interface.Get<const boost::ptr_vector<Config> &>();
-                std::string interfaceDbName = interface.Get<const boost::ptr_vector<Config> &>()[0].Get<string>();
-                std::string interfaceName = interface.Get<const boost::ptr_vector<Config> &>()[1].Get<string>();
+                std::string interfaceDbName = interface.Get<const boost::ptr_vector<Config> &>()[0].Get<std::string>();
+                std::string interfaceName = interface.Get<const boost::ptr_vector<Config> &>()[1].Get<std::string>();
                 Interface *iface = Interface::GetInterface(interfaceName);
                 if (!iface)
                 {
@@ -53,7 +55,7 @@ namespace openais
             }
         }
 
-        void GetPythonConfig(string module, Config &config)
+        void GetPythonConfig(std::string module, Config &config)
         {
             PyObject *pModule, *pModuleDict;
             pModule = PyImport_ImportModule(module.c_str());
@@ -63,25 +65,27 @@ namespace openais
 
         int Main(int argc, char **argv)
         {
-
-            AttachSignals();
+            //AttachSignals();
+            //std::cout << "Entered main" << std::endl;
             Config config;
-
+            //std::cout << "Trying to parse config" << std::endl;
             try
             {
                 std::filesystem::path configPath(Task::task->GetConfigFileName());
                 setenv("PYTHONPATH", configPath.parent_path().c_str(), 1);
                 Py_Initialize();
+                //std::cout << "Py_Initialize" << std::endl;
                 GetPythonConfig(configPath.replace_extension("").filename().c_str(), config);
+                //std::cout << "Got config" << std::endl;
             }
             catch (const std::exception &e)
             {
                 std::cout << "Error at parsing config file" << std::endl;
                 return 1;
             }
-
+                       
+            openais::logger::Logger::Configure(config);
             RegisterInterfaces(config["Interfaces"]);
-
             double frequencyHz;
             try
             {

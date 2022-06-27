@@ -281,3 +281,51 @@ boost::ptr_vector<Config>::const_reverse_iterator Config::crend() const
 {
     return m_children.crend();
 }
+
+size_t Config::Size() const
+{
+    return m_children.size();
+}
+
+std::string Config::ToString() const
+{
+    PyObject *str = PyObject_Str(m_value); 
+    const char *pyStr = PyUnicode_AsUTF8(str); 
+    std::string result; 
+    result = pyStr;
+    Py_DECREF(str);
+    return result;
+}
+
+std::string Config::PyType() const
+{
+    if(PyList_Check(m_value))
+    {
+        return "PyList";
+    }
+    if(PyDictItems_Check(m_value))
+    {
+        return "PyDict";
+    }
+    if(PyUnicode_Check(m_value))
+    {
+        return "PyUnicode";
+    }
+    if(PyTuple_Check(m_value))
+    {
+        return "PyTuple";
+    }
+    if(PyLong_Check(m_value))
+    {
+        return "PyLong";
+    }
+    if(PyFloat_Check(m_value))
+    {
+        return "PyFloat";
+    }
+    if(PyCallable_Check(m_value))
+    {
+        return "PyCallable";
+    }
+    return "PyObject";
+}

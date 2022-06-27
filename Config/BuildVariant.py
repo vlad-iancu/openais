@@ -1,4 +1,3 @@
 DEBUG="DEBUG"
 RELEASE="RELEASE"
-
 buildVariant = DEBUG

@@ -33,7 +33,7 @@ public:
 
     MOCK_METHOD((void), Clean, (), (override));
 
-    string GetConfigFileName() const override
+    std::string GetConfigFileName() const override
     {
         return "TestConfigFile";
     }
@@ -59,7 +59,7 @@ public:
 
     MOCK_METHOD((void), SetActive, (bool));
 
-    string GetConfigFileName() const override
+    std::string GetConfigFileName() const override
     {
         return "TestConfigFile";
     }

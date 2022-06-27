@@ -26,7 +26,7 @@ namespace openais
             void Initialize(const Config &config) override;
             void Executive() override;
             void Clean() override;
-            string GetConfigFileName() const override;
+            std::string GetConfigFileName() const override;
 
         public:
             SampleTask`()';

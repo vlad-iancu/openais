@@ -3,18 +3,16 @@ set(BOOST_INCLUDEDIR ${BOOST_ROOT}/include)
 set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib)
 
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
-include("Python.cmake")
+include("${CMAKE_SOURCE_DIR}/openais/Python.cmake")
 
 add_library(Task STATIC Task.cpp PeriodicTask.cpp ContinualTask.cpp)
 add_library(TaskMain STATIC TaskMain.cpp)
 add_library(TaskConfig STATIC Config.cpp)
-#add_library(TaskCommandLine STATIC CommandLine.cpp)
 add_library(Main STATIC Main.cpp)
 
-target_link_libraries(TaskMain PUBLIC #[[TaskCommandLine]] TaskConfig Task pthread stdc++fs)
+target_link_libraries(TaskMain PUBLIC Logger Task pthread stdc++fs)
 target_link_libraries(TaskConfig PUBLIC Boost::filesystem ${PYTHON_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(Task PUBLIC TaskConfig)
-#target_link_libraries(TaskCommandLine PUBLIC Boost::filesystem Boost::program_options ${PYTHON_LIBRARIES})
 target_link_libraries(Main PUBLIC TaskMain)
 
 target_include_directories(Task PUBLIC ${CMAKE_SOURCE_DIR}/openais ${Boost_INCLUDE_DIRS})
