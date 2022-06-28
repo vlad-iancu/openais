@@ -18,7 +18,7 @@ void log_entry(int level, const char *domain, ...)
 	const char *fmt = va_arg(v, const char*);
 	va_list vp;
 	va_copy(vp, v);
-	std::vector<char> buf(std::vsnprintf(NULL, 0,  fmt, v));
+	std::vector<char> buf(std::vsnprintf(NULL, 0,  fmt, v) + 1);
 	va_end(v);
 	std::vsnprintf(buf.data(), buf.size(), fmt, vp);
 	va_end(vp);

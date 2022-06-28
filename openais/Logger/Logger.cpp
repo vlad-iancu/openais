@@ -19,8 +19,7 @@ void Logger::AddLogger(Logger *logger)
 
 void Logger::LogEntry(LogEntryPtr entry)
 {
-
-	if(g_logLevel < entry->GetLevel())
+	if(g_logLevel > entry->GetLevel())
 	{
 		return;
 	}

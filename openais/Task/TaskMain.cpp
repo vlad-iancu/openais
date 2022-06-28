@@ -65,7 +65,7 @@ namespace openais
 
         int Main(int argc, char **argv)
         {
-            //AttachSignals();
+            AttachSignals();
             //std::cout << "Entered main" << std::endl;
             Config config;
             //std::cout << "Trying to parse config" << std::endl;
