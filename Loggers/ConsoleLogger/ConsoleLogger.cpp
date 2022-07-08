@@ -23,10 +23,15 @@ void ConsoleLogger::Log(LogEntryPtr entry)
 
 std::string ConsoleLogger::GetName() const
 {
-	return LOGGER_NAME;
+	return "ConsoleLogger";
 }
 
 void ConsoleLogger::Initialize(const task::Config &config)
+{
+	/*Empty*/
+}
+
+void ConsoleLogger::Clean()
 {
 	/*Empty*/
 }

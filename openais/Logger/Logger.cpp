@@ -45,3 +45,11 @@ void Logger::Configure(const Config &config)
 	}
 	g_logLevel = (LogLevel)(config["logLevel"].Get<int>());
 }
+
+void Logger::Release()
+{
+	for(const auto &[name, logger] : g_loggersMap)
+	{
+		logger->Clean();	
+	}
+}

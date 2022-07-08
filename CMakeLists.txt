@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 17)
 
 option(ENABLE_TESTING "Enables Testing" ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS  ON)
 option(INSTALL_GTEST "Enable installation of googletest. (Projects embedding googletest may want to turn this OFF.)" OFF)
 
 if(ENABLE_TESTING)

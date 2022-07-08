@@ -32,6 +32,11 @@ void SampleTask::Clean()
 {
 }
 
+std::string SampleTask::GetName() const
+{
+    return "SampleTask";
+}
+
 std::string SampleTask::GetConfigFileName() const
 {
     return SAMPLE_TASK_CONFIG_FILENAME;

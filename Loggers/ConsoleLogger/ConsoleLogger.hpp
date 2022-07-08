@@ -6,13 +6,10 @@
 #include <Logger/Logger.hpp>
 #include <string>
 
-#ifndef LOGGER_NAME
-//This is usually defined at config time
-#define LOGGER_NAME "Logger"
-#endif
-
-namespace openais {
-	namespace logger {
+namespace openais 
+{
+	namespace logger 
+	{
 		class ConsoleLogger: public Logger
 		{
 			private:
@@ -20,9 +17,10 @@ namespace openais {
 				static ConsoleLogger _prototype;
 
 			public:
-				virtual void Log(LogEntryPtr entry)	override;
-				virtual void Initialize(const task::Config &config) override;
-				virtual std::string GetName() const override;
+				void Log(LogEntryPtr entry)	override;
+				void Initialize(const task::Config &config) override;
+				std::string GetName() const override;
+			    void Clean() override;
 
 			public:
 				ConsoleLogger(const ConsoleLogger &other);

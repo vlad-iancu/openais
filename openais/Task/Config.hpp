@@ -17,11 +17,13 @@ namespace openais
         class Config
         {
         public:
-            /* Since there are a finite amount of possible values, the template will be implemented
+            /* Since there are a finite amount of possible typename values, the template will be implemented
                in source file
             */
             template <typename T>
             T Get() const;
+            template <typename T>
+            T Get(const T& defaultValue) const;
 
             const Config &operator[](const std::string &name) const;
             const Config &operator[](Py_ssize_t index) const;

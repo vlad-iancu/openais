@@ -26,11 +26,13 @@ namespace openais {
 			virtual	void Log(LogEntryPtr entry) = 0;
 			virtual void Initialize(const Config &config) = 0;
 			virtual std::string GetName() const = 0;
+			virtual void Clean() = 0;
 
 		public:
 			static void AddLogger(Logger *logger);
 			static void LogEntry(LogEntryPtr entry);
 			static void Configure(const Config &config);
+			static void Release();
 		};
 	}
 } // namespace openais
