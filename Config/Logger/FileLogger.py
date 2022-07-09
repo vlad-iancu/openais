@@ -8,4 +8,4 @@ class FileLogger(Logger):
         super().__init__("FileLogger")
         self.directory = logDir
         self.filePrefix = "LOG"
-        self.fileSize = 1024 * 5
+        self.fileSize = 1024 * 5 #5KB by default

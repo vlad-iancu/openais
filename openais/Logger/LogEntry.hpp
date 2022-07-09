@@ -27,9 +27,25 @@ namespace openais
 					);
 
 		public:
+			/**
+			 * @brief Gets the Unix timestamp (nanoseconds) when this log entry was created
+			 */
 			TimeStamp GetTimeStamp() const;
+
+			/**
+			 * @brief Gets the text message provided by the user
+			 */
 			const std::string& GetMessage() const;
+
+			/**
+			 * @brief Gets the level of this log entry.
+			 * See `enum LogLevel` for possible values
+			 */
 			LogLevel GetLevel() const;
+
+			/**
+			 * @brief Gets the domain of this log entry
+			 */
 			const std::string& GetDomain() const;
 				
 		private:
