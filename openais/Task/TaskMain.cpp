@@ -26,15 +26,20 @@ namespace openais
         void signal_handler(int signal)
         {
             Task::task->Stop();
+            //SIG_DFL(signal);
         }
 
         void AttachSignals()
         {
             signal(SIGTERM, signal_handler);
             signal(SIGINT, signal_handler);
-            signal(SIGSEGV, signal_handler);
+            signal(SIGSEGV, SIG_DFL);
             signal(SIGBUS, signal_handler);
             signal(SIGABRT, signal_handler);
+            signal(SIGILL, signal_handler);
+            signal(SIGQUIT, signal_handler);
+            signal(SIGSYS, signal_handler);
+            signal(SIGFPE, signal_handler);
         }
 
         void RegisterInterfaces(const Config &config)
@@ -65,7 +70,7 @@ namespace openais
 
         int Main(int argc, char **argv)
         {
-            //AttachSignals();
+            AttachSignals();
             //std::cout << "Entered main" << std::endl;
             Config config;
             //std::cout << "Trying to parse config" << std::endl;
