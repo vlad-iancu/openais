@@ -4,6 +4,6 @@ from Logger.Logger import *
 Interfaces = {}
 frequencyHz = 1.0
 
-consoleLogger m ConsoleLogger()
+consoleLogger = ConsoleLogger()
 logLevel = DEBUG
 loggers = [consoleLogger]
