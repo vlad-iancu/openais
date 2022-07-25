@@ -38,6 +38,11 @@ public:
         return "TestConfigFile";
     }
 
+    std::string GetName() const override
+    {
+        return "MockTask";
+    }
+
 public:
     PeriodicTaskMock() {}
     PeriodicTaskMock(const PeriodicTaskMock &other) {}
@@ -62,6 +67,11 @@ public:
     std::string GetConfigFileName() const override
     {
         return "TestConfigFile";
+    }
+
+    std::string GetName() const override
+    {
+        return "MockTask";
     }
 
 public:
