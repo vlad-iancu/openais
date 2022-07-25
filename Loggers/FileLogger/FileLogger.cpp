@@ -22,7 +22,7 @@ void FileLogger::Log(LogEntryPtr entry)
 	std::string message = entry->GetMessage();
 	m_fileSize += std::fprintf(m_file, "(%ld) %04d-%02d-%02d %02d:%02d:%02d [%s] %s: %s\n",
 				entry->GetTimeStamp(),
-				utcTime->tm_year + 1900, utcTime->tm_mon, utcTime->tm_mday,
+				utcTime->tm_year + 1900, utcTime->tm_mon + 1, utcTime->tm_mday,
 				utcTime->tm_hour, utcTime->tm_min, utcTime->tm_sec,
 				logLevel.c_str(), domain.c_str(), message.c_str()
 			);

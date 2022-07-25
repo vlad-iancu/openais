@@ -23,8 +23,17 @@ namespace openais {
 			static LogLevel g_logLevel;
 
 		public:
+			/**
+			 * @brief Logs a log entry
+			 */
 			virtual	void Log(LogEntryPtr entry) = 0;
+			/**
+			 * @brief Initializes the logger
+			 */
 			virtual void Initialize(const Config &config) = 0;
+			/**
+			 * @brief Gets the name of the logger
+			 */
 			virtual std::string GetName() const = 0;
 			virtual void Clean() = 0;
 
