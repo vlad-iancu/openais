@@ -39,8 +39,8 @@ function WritePythonCmakeFile() {
     echo "set(PYTHON_LIBRARIES \${${PYTHON_PACKAGE}_LIBRARIES})"
     echo "set(PYTHON_INCLUDE_DIRS \${${PYTHON_PACKAGE}_INCLUDE_DIRS})"
     echo "set(PYTHON_CFLAGS_OTHER \${${PYTHON_PACKAGE}_CFLAGS_OTHER})"
-  } > $PROJECT_DIR/openais/Task/Python.cmake
-  echo "Written Python cmake file at $PROJECT_DIR/openais/Task/Python.cmake"
+  } > $PROJECT_DIR/openais/Python.cmake
+  echo "Written Python cmake file at $PROJECT_DIR/openais/Python.cmake"
 }
 
 if [[ ! -z $INSTALLED_PYTHON3_EXEC ]]

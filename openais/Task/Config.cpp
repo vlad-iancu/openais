@@ -104,6 +104,36 @@ long Config::Get<long>() const
 }
 
 template <>
+long Config::Get<long>(const long &defaultValue) const
+{
+    if (!PyLong_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return PyLong_AsLong(m_value);
+}
+
+template <>
+std::size_t Config::Get<std::size_t>() const
+{
+    if (!PyLong_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold a long value");
+    }
+    return (std::size_t)PyLong_AsSize_t(m_value);
+}
+
+template <>
+std::size_t Config::Get<std::size_t>(const std::size_t &defaultValue) const
+{
+    if (!PyLong_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return PyLong_AsSize_t(m_value);
+}
+
+template <>
 int Config::Get<int>() const
 {
     if (!PyLong_Check(m_value))
@@ -111,6 +141,27 @@ int Config::Get<int>() const
         throw std::runtime_error("Config does not hold an int value");
     }
     return (int)PyLong_AsLong(m_value);
+}
+
+template <>
+int Config::Get<int>(const int &defaultValue) const
+{
+    if (!PyLong_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return (int)PyLong_AsLong(m_value);
+}
+
+
+template <>
+short Config::Get<short>(const short &defaultValue) const
+{
+    if (!PyLong_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return (short)PyLong_AsLong(m_value);
 }
 
 template <>
@@ -124,23 +175,23 @@ short Config::Get<short>() const
 }
 
 template <>
-unsigned Config::Get<unsigned>() const
+unsigned Config::Get<unsigned>(const unsigned &defaultValue) const
 {
     if (!PyLong_Check(m_value))
     {
-        throw std::runtime_error("Config does not hold an unsigned value");
+        return defaultValue;
     }
     return (unsigned)PyLong_AsLong(m_value);
 }
 
 template <>
-unsigned long Config::Get<unsigned long>() const
+unsigned Config::Get<unsigned>() const
 {
     if (!PyLong_Check(m_value))
     {
-        throw std::runtime_error("Config does not hold an unsigned long value");
+        throw std::runtime_error("Config does not hold a short value");
     }
-    return (unsigned long)PyLong_AsLong(m_value);
+    return (unsigned)PyLong_AsLong(m_value);
 }
 
 template <>
@@ -149,6 +200,17 @@ std::string Config::Get<std::string>() const
     if (!PyUnicode_Check(m_value))
     {
         throw std::runtime_error("Config does not hold a string value");
+    }
+    std::string str(PyUnicode_AsUTF8(m_value));
+    return str;
+}
+
+template <>
+std::string Config::Get<std::string>(const std::string &defaultValue) const
+{
+    if (!PyUnicode_Check(m_value))
+    {
+        return defaultValue;
     }
     std::string str(PyUnicode_AsUTF8(m_value));
     return str;
@@ -164,6 +226,15 @@ double Config::Get<double>() const
     return PyFloat_AsDouble(m_value);
 }
 
+template <>
+double Config::Get<double>(const double &defaultValue) const
+{
+    if (!PyFloat_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return PyFloat_AsDouble(m_value);
+}
 /*
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wreturn-local-addr" */
@@ -280,4 +351,52 @@ boost::ptr_vector<Config>::const_reverse_iterator Config::crbegin() const
 boost::ptr_vector<Config>::const_reverse_iterator Config::crend() const
 {
     return m_children.crend();
+}
+
+size_t Config::Size() const
+{
+    return m_children.size();
+}
+
+std::string Config::ToString() const
+{
+    PyObject *str = PyObject_Str(m_value); 
+    const char *pyStr = PyUnicode_AsUTF8(str); 
+    std::string result; 
+    result = pyStr;
+    Py_DECREF(str);
+    return result;
+}
+
+std::string Config::PyType() const
+{
+    if(PyList_Check(m_value))
+    {
+        return "PyList";
+    }
+    if(PyDictItems_Check(m_value))
+    {
+        return "PyDict";
+    }
+    if(PyUnicode_Check(m_value))
+    {
+        return "PyUnicode";
+    }
+    if(PyTuple_Check(m_value))
+    {
+        return "PyTuple";
+    }
+    if(PyLong_Check(m_value))
+    {
+        return "PyLong";
+    }
+    if(PyFloat_Check(m_value))
+    {
+        return "PyFloat";
+    }
+    if(PyCallable_Check(m_value))
+    {
+        return "PyCallable";
+    }
+    return "PyObject";
 }

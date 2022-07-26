@@ -14,21 +14,22 @@ namespace openais
 {
     namespace task
     {
-        using string = std::string;
-        using ConfigValue = std::variant<double, string, uint64_t>;
-
         class Config
         {
         public:
-            /* Since there are a finite amount of possible values, the template will be implemented
+            /* Since there are a finite amount of possible typename values, the template will be implemented
                in source file
             */
             template <typename T>
             T Get() const;
+            template <typename T>
+            T Get(const T& defaultValue) const;
 
             const Config &operator[](const std::string &name) const;
             const Config &operator[](Py_ssize_t index) const;
-
+            size_t Size() const;
+            std::string ToString() const;
+            std::string PyType() const;
             void FromPythonObject(PyObject *obj);
 
             typedef boost::ptr_vector<Config>::iterator iterator;

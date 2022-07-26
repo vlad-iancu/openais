@@ -22,8 +22,8 @@ namespace openais
             void `Publish'(const interfaceType &data) override;
             std::string `GetInterfaceName'() const override;
             openais::interface::Interface *`Clone'() const override;
-            bool Start`()';
-            bool Stop`()';
+            bool Start`()' override;
+            bool Stop`()' override;
 
         public:
             ClassName`('const ClassName &other`)';

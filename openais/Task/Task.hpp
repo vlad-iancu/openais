@@ -54,8 +54,12 @@ namespace openais
              * 
              * @return string 
              */
-            virtual string GetConfigFileName() const = 0;
-
+            virtual std::string GetConfigFileName() const = 0;
+            
+            /**
+             * @brief Get the name of the task
+             */
+            virtual std::string GetName() const = 0;
             /**
              * @brief Runs the task
              * 

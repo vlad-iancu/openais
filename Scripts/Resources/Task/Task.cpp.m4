@@ -6,7 +6,6 @@ define(SAMPLE_TASK_CONFIG_FILENAME, `translit(taskName, `a-z', `A-Z')`_TASK_CONF
 using Task = openais::task::Task;
 using SampleTask = openais::task::SampleTask;
 using Config = openais::task::Config;
-using string = std::string;
 
 SampleTask SampleTask::_task;
 
@@ -33,7 +32,12 @@ void SampleTask::Clean()
 {
 }
 
-string SampleTask::GetConfigFileName() const
+std::string SampleTask::GetName() const
+{
+    return "SampleTask";
+}
+
+std::string SampleTask::GetConfigFileName() const
 {
     return SAMPLE_TASK_CONFIG_FILENAME;
 }
