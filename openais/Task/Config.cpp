@@ -114,6 +114,26 @@ long Config::Get<long>(const long &defaultValue) const
 }
 
 template <>
+std::size_t Config::Get<std::size_t>() const
+{
+    if (!PyLong_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold a long value");
+    }
+    return (std::size_t)PyLong_AsSize_t(m_value);
+}
+
+template <>
+std::size_t Config::Get<std::size_t>(const std::size_t &defaultValue) const
+{
+    if (!PyLong_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return PyLong_AsSize_t(m_value);
+}
+
+template <>
 int Config::Get<int>() const
 {
     if (!PyLong_Check(m_value))

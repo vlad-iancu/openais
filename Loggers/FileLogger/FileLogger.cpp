@@ -32,7 +32,7 @@ void FileLogger::Log(LogEntryPtr entry)
 void FileLogger::Initialize(const Config &config)
 {
 	m_filePrefix = config["filePrefix"].Get<std::string>(openais::task::Task::task->GetName());	
-	m_maxFileSize = config["fileSize"].Get<int>(5 * 1024); //5KB by default
+	m_maxFileSize = config["fileSize"].Get<std::size_t>(5 * 1024); //5KB by default
 	m_dir = config["directory"].Get<std::string>();	
 	m_fileIndex = GetFileIndex();
 	InitFileStream();

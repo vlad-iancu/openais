@@ -19,7 +19,17 @@ namespace openais
 			FileLogger(const FileLogger &other);
 
 		public:
+			/**
+			 * @brief Logs an entry into the current file
+			 */
 			void Log(LogEntryPtr entry) override;
+
+			/**
+			 * @brief config contains the following fields:
+			 * filePrefix: std::string -> The names of the generated log files will be in the form:
+			 * 							  {config[filePrefix]}_{fileNumber}.log
+			 * 	fileSize: 
+			 */
 			void Initialize(const Config &config) override;
 			std::string GetName() const override;
 			void Clean() override;
