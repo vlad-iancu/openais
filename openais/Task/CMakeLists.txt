@@ -1,7 +1,3 @@
-set(BOOST_ROOT ${CMAKE_SOURCE_DIR}/BuildDependencies/boost)
-set(BOOST_INCLUDEDIR ${BOOST_ROOT}/include)
-set(BOOST_LIBRARYDIR ${BOOST_ROOT}/lib)
-
 find_package(Boost REQUIRED COMPONENTS filesystem program_options)
 include("${CMAKE_SOURCE_DIR}/openais/Python.cmake")
 

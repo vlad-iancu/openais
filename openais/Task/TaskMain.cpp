@@ -33,13 +33,14 @@ namespace openais
         {
             signal(SIGTERM, signal_handler);
             signal(SIGINT, signal_handler);
-            signal(SIGSEGV, SIG_DFL);
-            signal(SIGBUS, signal_handler);
-            signal(SIGABRT, signal_handler);
-            signal(SIGILL, signal_handler);
+            //signal(SIGSEGV, SIG_DFL);
+            //signal(SIGBUS, SIG_DFL);
+            //signal(SIGABRT, SIG_DFL);
+            //signal(SIGILL, SIG_DFL);
             signal(SIGQUIT, signal_handler);
-            signal(SIGSYS, signal_handler);
-            signal(SIGFPE, signal_handler);
+            //signal(SIGSYS, SIG_DFL);
+            //signal(SIGFPE, SIG_DFL);
+            
         }
 
         void RegisterInterfaces(const Config &config)
