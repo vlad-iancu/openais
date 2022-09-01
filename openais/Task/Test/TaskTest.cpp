@@ -59,7 +59,7 @@ public:
     MOCK_METHOD((void), Initialize, (const Config &), (override));
 
     MOCK_METHOD((void), Executive, (), (override));
-
+    
     MOCK_METHOD((void), Clean, (), (override));
 
     MOCK_METHOD((void), SetActive, (bool));

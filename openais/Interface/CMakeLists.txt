@@ -1,4 +1,3 @@
-
 add_library(InterfaceBase STATIC
             Interface.cpp
             InterfaceDB.cpp)

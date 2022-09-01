@@ -19,8 +19,9 @@ if(ENABLE_TESTING)
     add_custom_target(tests ${CMAKE_CTEST_COMMAND})
 endif()
 
-set(DOXYGEN ${CMAKE_SOURCE_DIR}/BuildDependencies/doxygen/build/target/bin/doxygen)
-set(DOXYGEN_PROPERTIES "")
+#set(DOXYGEN ${CMAKE_SOURCE_DIR}/BuildDependencies/doxygen/build/target/bin/doxygen)
+#set(DOXYGEN_PROPERTIES "")
+find_package(Doxygen REQUIRED)
 
 add_custom_target(docs
     COMMAND cat ${CMAKE_SOURCE_DIR}/Doxyfile ${CMAKE_SOURCE_DIR}/Doxyfile.in | ${DOXYGEN} -
