@@ -2,7 +2,6 @@
 #include <vector>
 #include <cstdint>
 #include <stdexcept>
-#include <iostream>
 
 using namespace openais::task;
 
@@ -172,6 +171,26 @@ short Config::Get<short>() const
         throw std::runtime_error("Config does not hold a short value");
     }
     return (short)PyLong_AsLong(m_value);
+}
+
+template <>
+unsigned short Config::Get<unsigned short>(const unsigned short &defaultValue) const
+{
+    if (!PyLong_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return (unsigned short)PyLong_AsLong(m_value);
+}
+
+template <>
+unsigned short Config::Get<unsigned short>() const
+{
+    if (!PyLong_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold a short value");
+    }
+    return (unsigned short)PyLong_AsLong(m_value);
 }
 
 template <>
@@ -399,4 +418,12 @@ std::string Config::PyType() const
         return "PyCallable";
     }
     return "PyObject";
+}
+
+void openais::task::GetPythonConfig(std::string module, Config &config)
+{
+    PyObject *pModule, *pModuleDict;
+    pModule = PyImport_ImportModule(module.c_str());
+    pModuleDict = PyModule_GetDict(pModule);
+    config.FromPythonObject(pModuleDict);
 }

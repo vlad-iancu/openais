@@ -1,5 +1,5 @@
-set(Python_ROOT_DIR "/opt/python")
-find_package(Python3 3.10.4 EXACT REQUIRED Development)
+set(Python3_ROOT_DIR "/opt/python")
+find_package(Python3 3.10.5 EXACT REQUIRED Development)
 set(PYTHON_LIBRARIES ${Python3_LIBRARIES})
 set(PYTHON_INCLUDE_DIRS ${Python3_INCLUDE_DIRS})
 set(PYTHON_CFLAGS_OTHER ${Python3_CFLAGS_OTHER})

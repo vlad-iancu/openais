@@ -50,6 +50,7 @@ namespace openais
             boost::ptr_vector<Config> m_children;
         };
 
+        void GetPythonConfig(std::string module, Config &config);
     } // namespace task
 
 } // namespace openais

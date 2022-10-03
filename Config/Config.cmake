@@ -1,7 +1,6 @@
 function(CONFIGURE_DIRECTORY SRC DEST)
     file(GLOB CONFIG_FILES LIST_DIRECTORIES false CONFIGURE_DEPENDS "${SRC}/*.py") 
     foreach(CONFIG_FILE ${CONFIG_FILES})
-        message(STATUS "Config file ${CONFIG_FILE}")
         get_filename_component(CONFIG_FILE_NAME ${CONFIG_FILE} NAME)
         configure_file(${CONFIG_FILE} "${DEST}/${CONFIG_FILE_NAME}")
     endforeach(CONFIG_FILE ${CONFIG_FILES})
