@@ -1,0 +1,10 @@
+add_executable(ExampleTask ExampleTask.cpp)
+set(INTERFACES InterfaceBase)
+target_link_libraries(ExampleTask PUBLIC ${OPENAIS_TASK} -Wl,--whole-archive ${INTERFACES} ${LOGGER_LIBS} -Wl,--no-whole-archive)
+target_include_directories(ExampleTask PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+set_target_properties(ExampleTask PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Bin/")
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.py "${CMAKE_BINARY_DIR}/Config/ExampleTaskConfig.py" COPYONLY)
+if(ENABLE_TESTING)
+add_subdirectory(Test)
+endif()

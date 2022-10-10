@@ -1,0 +1,6 @@
+add_executable(ExampleTaskTest ExampleTaskTest.cpp)
+target_link_libraries(ExampleTaskTest PUBLIC gtest_main)
+set_target_properties(ExampleTaskTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Test)
+
+include(GoogleTest)
+gtest_discover_tests(ExampleTaskTest)

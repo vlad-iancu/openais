@@ -5,7 +5,7 @@ option(ENABLE_TESTING "Enables Testing" ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS  ON)
 option(INSTALL_GTEST "Enable installation of googletest. (Projects embedding googletest may want to turn this OFF.)" OFF)
 
-if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+if ( CMAKE_BUILD_TYPE STREQUAL "Debug" )
     message(STATUS "We are debugging")
     add_compile_definitions(OPENAIS_DEBUG="VAL")
     set(OPENAIS_DEBUG "TRUE")

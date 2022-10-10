@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include <Task/Task.hpp>
-#include <Task/Config.hpp>
+#include <Task/Interpreter.hpp>
 #include <Task/PeriodicTask.hpp>
 #include <Task/ContinualTask.hpp>
 #ifdef OPENAIS_DEBUG
@@ -66,21 +66,13 @@ namespace openais
         int Main(int argc, char **argv)
         {
             AttachSignals();
+            Py_Initialize();
+            Interpreter::Initialize(PyThreadState_Get());
             Config config;
-            try
-            {
-                const char *configDirStr = getenv("OPENAIS_CONFIG_DIR");
-                setenv("PYTHONPATH", configDirStr, 1);
-                Py_Initialize();
-                std::string taskName = openais::task::Task::task->GetName();
-                GetPythonConfig(taskName + "Config", config);
-            }
-            catch (const std::exception &e)
-            {
-                std::cout << "Error at parsing config file" << std::endl;
-                return 1;
-            }
-                       
+            const char *configDirStr = getenv("OPENAIS_CONFIG_DIR");
+            std::string configModule = openais::task::Task::task->GetName() + "Config";
+            Interpreter interp(configDirStr);
+            interp.Get(configModule, config);
             openais::logger::Logger::Configure(config);
             RegisterInterfaces(config["Interfaces"]);
             double frequencyHz;
@@ -114,7 +106,6 @@ namespace openais
                 continualTask->Clean();
             }
             openais::logger::Logger::Release();
-            Py_Finalize();
             return 0;
         }
 

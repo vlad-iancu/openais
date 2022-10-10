@@ -12,7 +12,7 @@ if(OPENAIS_DEBUG)
 add_library(TaskManagerClient TaskManager/TaskManagerClient/TMPClient.cpp)
 endif()
 add_library(TaskMain STATIC TaskMain.cpp)
-add_library(TaskConfig STATIC Config.cpp)
+add_library(TaskConfig STATIC Config.cpp Interpreter.cpp)
 add_library(Main STATIC Main.cpp)
 
 if(OPENAIS_DEBUG)
