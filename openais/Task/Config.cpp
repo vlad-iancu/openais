@@ -2,7 +2,6 @@
 #include <vector>
 #include <cstdint>
 #include <stdexcept>
-#include <iostream>
 
 using namespace openais::task;
 
@@ -16,19 +15,15 @@ void Config::FromPythonObject(PyObject *obj)
     m_value = obj;
     if (PyLong_Check(obj))
     {
-        //std::cout << "We have a long: " << PyLong_AsLong(m_value) << std::endl;
     }
     else if (PyFloat_Check(obj))
     {
-        //std::cout << "We have a float: " << PyFloat_AsDouble(m_value) << std::endl;
     }
     else if (PyUnicode_Check(obj))
     {
-        //std::cout << "We have a string: " << PyUnicode_AsUTF8(m_value) << std::endl;
     }
     else if (PyList_Check(obj))
     {
-        //std::cout << "We have a list" << obj << std::endl;
         for (Py_ssize_t i = 0; i < PyList_Size(obj); i++)
         {
             PyObject *pItem = PyList_GetItem(obj, i);
@@ -62,7 +57,6 @@ void Config::FromPythonObject(PyObject *obj)
     }
     else
     {
-        //std::cout << "We have an object" << std::endl;
         PyObject *pAttrs = PyObject_Dir(obj);
         PyObject *pElement;
         PyObject *pItem;
@@ -175,6 +169,26 @@ short Config::Get<short>() const
 }
 
 template <>
+unsigned short Config::Get<unsigned short>(const unsigned short &defaultValue) const
+{
+    if (!PyLong_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return (unsigned short)PyLong_AsLong(m_value);
+}
+
+template <>
+unsigned short Config::Get<unsigned short>() const
+{
+    if (!PyLong_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold a short value");
+    }
+    return (unsigned short)PyLong_AsLong(m_value);
+}
+
+template <>
 unsigned Config::Get<unsigned>(const unsigned &defaultValue) const
 {
     if (!PyLong_Check(m_value))
@@ -234,6 +248,25 @@ double Config::Get<double>(const double &defaultValue) const
         return defaultValue;
     }
     return PyFloat_AsDouble(m_value);
+}
+template <>
+float Config::Get<float>() const
+{
+    if (!PyFloat_Check(m_value))
+    {
+        throw std::runtime_error("Config does not hold a double value");
+    }
+    return (float)PyFloat_AsDouble(m_value);
+}
+
+template <>
+float Config::Get<float>(const float &defaultValue) const
+{
+    if (!PyFloat_Check(m_value))
+    {
+        return defaultValue;
+    }
+    return (float)PyFloat_AsDouble(m_value);
 }
 /*
 #pragma GCC diagnostic push
@@ -399,4 +432,12 @@ std::string Config::PyType() const
         return "PyCallable";
     }
     return "PyObject";
+}
+
+void openais::task::GetPythonConfig(std::string module, Config &config)
+{
+    PyObject *pModule, *pModuleDict;
+    pModule = PyImport_ImportModule(module.c_str());
+    pModuleDict = PyModule_GetDict(pModule);
+    config.FromPythonObject(pModuleDict);
 }

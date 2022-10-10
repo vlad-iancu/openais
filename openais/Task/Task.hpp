@@ -48,18 +48,10 @@ namespace openais
             virtual void Clean() = 0;
             
             /**
-             * @brief Get the name of the configuration file. to be
-             * passed to `Initialize`.
-             * This method is auto-generated,
-             * 
-             * @return string 
-             */
-            virtual std::string GetConfigFileName() const = 0;
-            
-            /**
              * @brief Get the name of the task
              */
             virtual std::string GetName() const = 0;
+
             /**
              * @brief Runs the task
              * 
@@ -78,7 +70,20 @@ namespace openais
              * 
              */
             bool IsActive() const;
-
+           
+            /**
+             * @brief Pauses the task
+             */
+            void Pause();
+            
+            /**
+             * @brief Whether the task is paused or not
+             */
+            bool IsPaused() const;
+            /**
+             * @brief Resumes the task
+             */
+            void Resume();
 
         protected:
             /**
@@ -90,7 +95,7 @@ namespace openais
             
         private:
             bool m_active = false;
-
+            bool m_paused = false;
         };
     } // namespace task
 

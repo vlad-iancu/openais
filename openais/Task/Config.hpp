@@ -14,12 +14,13 @@ namespace openais
 {
     namespace task
     {
+        /**
+         * This class is responsible for representing Python objects which can be retrieved
+         * by the application for configuration purposes
+         */
         class Config
         {
         public:
-            /* Since there are a finite amount of possible typename values, the template will be implemented
-               in source file
-            */
             template <typename T>
             T Get() const;
             template <typename T>
@@ -27,6 +28,10 @@ namespace openais
 
             const Config &operator[](const std::string &name) const;
             const Config &operator[](Py_ssize_t index) const;
+
+            /**
+             * @brief The number of elements in the configuration, only available in
+             */
             size_t Size() const;
             std::string ToString() const;
             std::string PyType() const;
@@ -50,6 +55,7 @@ namespace openais
             boost::ptr_vector<Config> m_children;
         };
 
+        void GetPythonConfig(std::string mod, Config &config);
     } // namespace task
 
 } // namespace openais

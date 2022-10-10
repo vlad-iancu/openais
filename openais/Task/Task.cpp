@@ -12,6 +12,21 @@ void Task::Stop()
     SetActive(false);
 }
 
+void Task::Pause()
+{
+    m_paused = true;
+}
+
+bool Task::IsPaused() const
+{
+    return m_paused;
+}
+
+void Task::Resume()
+{
+    m_paused = false;
+}
+
 bool Task::IsActive() const
 {
     return m_active;

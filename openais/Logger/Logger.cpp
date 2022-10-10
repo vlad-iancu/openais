@@ -2,7 +2,6 @@
 #include <Logger/LogEntry.hpp>
 #include <Logger/Logger.hpp>
 #include <utility>
-#include <iostream>
 
 using namespace openais::logger;
 
@@ -39,6 +38,7 @@ void Logger::Configure(const Config &config)
 	}
 	for(const Config &loggerElement : config["loggers"])
 	{
+		const Config &el = loggerElement["name"];
 		Logger *logger = loggers.at(loggerElement["name"].Get<std::string>());
 		g_loggersMap.insert(std::make_pair(logger->GetName(), logger));
 		logger->Initialize(loggerElement);
