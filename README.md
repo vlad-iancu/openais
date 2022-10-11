@@ -1,2 +1,2 @@
 # OpenAIS
-Knockoff version of CAT AIS system
+Documentation starts [here](./docs/README.md)
