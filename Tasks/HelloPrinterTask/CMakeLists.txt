@@ -1,0 +1,11 @@
+add_executable(HelloPrinterTask HelloPrinterTask.cpp)
+set(INTERFACES InterfaceBase)
+target_link_libraries(HelloPrinterTask PUBLIC ${OPENAIS_TASK} -Wl,--whole-archive ${INTERFACES} ${LOGGER_LIBS} -Wl,--no-whole-archive)
+target_include_directories(HelloPrinterTask PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(HelloPrinterTask PUBLIC HELLOPRINTER_TASK_CONFIG_FILENAME="${CMAKE_BINARY_DIR}/Config/HelloPrinterTaskConfig.py")
+set_target_properties(HelloPrinterTask PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/Bin/")
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.py "${CMAKE_BINARY_DIR}/Config/HelloPrinterTaskConfig.py" COPYONLY)
+if(ENABLE_TESTING)
+add_subdirectory(Test)
+endif()

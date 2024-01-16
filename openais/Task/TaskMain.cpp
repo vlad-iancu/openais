@@ -28,21 +28,20 @@ namespace openais
         void signal_handler(int signal)
         {
             Task::task->Stop();
-            //SIG_DFL(signal);
+            // SIG_DFL(signal);
         }
 
         void AttachSignals()
         {
             signal(SIGTERM, signal_handler);
             signal(SIGINT, signal_handler);
-            //signal(SIGSEGV, SIG_DFL);
-            //signal(SIGBUS, SIG_DFL);
-            //signal(SIGABRT, SIG_DFL);
-            //signal(SIGILL, SIG_DFL);
+            // signal(SIGSEGV, SIG_DFL);
+            // signal(SIGBUS, SIG_DFL);
+            // signal(SIGABRT, SIG_DFL);
+            // signal(SIGILL, SIG_DFL);
             signal(SIGQUIT, signal_handler);
-            //signal(SIGSYS, SIG_DFL);
-            //signal(SIGFPE, SIG_DFL);
-            
+            // signal(SIGSYS, SIG_DFL);
+            // signal(SIGFPE, SIG_DFL);
         }
 
         void RegisterInterfaces(const Config &config)
@@ -72,9 +71,14 @@ namespace openais
             const char *configDirStr = getenv("OPENAIS_CONFIG_DIR");
             std::string configModule = openais::task::Task::task->GetName() + "Config";
             Interpreter interp(configDirStr);
+
             interp.Get(configModule, config);
             openais::logger::Logger::Configure(config);
             RegisterInterfaces(config["Interfaces"]);
+
+            PeriodicTask *periodicTask = dynamic_cast<PeriodicTask *>(Task::task);
+            ContinualTask *continualTask = dynamic_cast<ContinualTask *>(Task::task);
+
             double frequencyHz;
             try
             {
@@ -83,15 +87,13 @@ namespace openais
             catch (const std::exception &e)
             {
                 // frequencyHz not present
+                if (periodicTask)
+                {
+                    std::cout << "frequencyHz not present" << std::endl;
+                    exit(1);
+                }
             }
 
-            PeriodicTask *periodicTask = dynamic_cast<PeriodicTask *>(Task::task);
-            ContinualTask *continualTask = dynamic_cast<ContinualTask *>(Task::task);
-#ifdef OPENAIS_DEBUG
-            openais::taskmanager::TMPClient client;
-            client.Initialize(config["TMP"]);
-            client.Start();
-#endif
             if (periodicTask)
             {
                 periodicTask->SetFrequency(frequencyHz);

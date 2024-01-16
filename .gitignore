@@ -1,5 +1,6 @@
 BuildDependencies/
 Build/
+build/
 .vscode/
 compile_commands.json
 pyrightconfig.json
