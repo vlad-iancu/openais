@@ -1,4 +1,5 @@
 #include <HelloPrinterTask.hpp>
+#include <Interface/InterfaceDB.hpp>
 #include <iostream>
 
 using Task = openais::task::Task;
@@ -19,11 +20,18 @@ Task *HelloPrinterTask::Clone() const
 
 void HelloPrinterTask::Initialize(const Config &config)
 {
+    outputInterface = interface::InterfaceDB::GetInterface<OutputInterface<Person>>("PersonOutput");
 }
 
 void HelloPrinterTask::Executive()
 {
-    std::cout << "HelloPrinterTask is running..." << std::endl;
+    Person person;
+    person.set_age(20);
+    person.set_name("John");
+    person.set_id(1);
+    outputInterface->Publish(person);
+    
+    //std::cout << "HelloPrinterTask is running..." << std::endl;
 }
 
 void HelloPrinterTask::Clean()

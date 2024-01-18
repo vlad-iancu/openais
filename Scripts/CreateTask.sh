@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ "$1" = "--help" ] || [ "$1" = "" ]; then
     echo "usage Scripts/CreateTask.sh <TaskName> <TaskType>"
     echo "TaskType: Periodic, Continual"

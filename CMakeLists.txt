@@ -40,5 +40,6 @@ add_subdirectory(openais)
 add_subdirectory(Loggers)
 add_subdirectory(Interfaces)
 add_subdirectory(Tasks)
+add_subdirectory(Serialization)
 #Multiple definition in ld is because of -Wl,--whole-archive, find a way around that
 include("Config/Config.cmake")

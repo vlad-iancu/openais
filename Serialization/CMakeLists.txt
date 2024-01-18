@@ -1,0 +1,6 @@
+file(GLOB OBJECTS "*")
+foreach(OBJECT ${OBJECTS})
+    if(IS_DIRECTORY ${OBJECT})
+        add_subdirectory(${OBJECT})
+    endif()
+endforeach()

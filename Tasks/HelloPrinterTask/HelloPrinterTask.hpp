@@ -4,10 +4,14 @@
 
 #include <Task/PeriodicTask.hpp>
 
+#include <Person/Person.pb.h>
+#include <Interface/OutputInterface.hpp>
 
 #ifndef HELLOPRINTER_TASK_CONFIG_FILENAME
 #define HELLOPRINTER_TASK_CONFIG_FILENAME "config.py"
 #endif
+
+using openais::interface::OutputInterface;
 
 namespace openais
 {
@@ -17,6 +21,7 @@ namespace openais
         {
         private:
             static HelloPrinterTask _task;
+            OutputInterface<Person> *outputInterface;
 
         public:
             Task *Clone() const override;

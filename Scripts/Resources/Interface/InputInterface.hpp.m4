@@ -5,7 +5,7 @@ define(ClassName, ``Input'interfaceName`Interface'')dnl
 `#define' HEADER_GUARD
 
 `#include <Interface/InputInterface.hpp>'
-
+`#include <Serialization/'interfaceType/interfaceType`.pb.h>'
 `#include <string>'
 
 namespace openais 
