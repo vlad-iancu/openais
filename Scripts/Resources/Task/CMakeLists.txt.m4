@@ -1,6 +1,9 @@
 define(`SampleTask', `taskName`Task'')dnl
 define(`ConfigFile', `"${CMAKE_BINARY_DIR}/Config/'taskName`TaskConfig.py"')dnl
 define(SAMPLE_TASK_CONFIG_FILENAME, `translit(taskName, `a-z', `A-Z')`_TASK_CONFIG_FILENAME'')dnl
+`include_directories("/usr/local/include/iceoryx/v2.90.0")'
+`link_directories("/usr/local/lib")'
+`link_libraries(iceoryx_posh iceoryx_hoofs iceoryx_platform iceoryx_binding_c iceoryx_posh_config iceoryx_posh_gateway iceoryx_posh_roudi)'
 `add_executable'(SampleTask taskName`Task.cpp')
 `set(INTERFACES InterfaceBase)'
 `target_link_libraries'(SampleTask PUBLIC `${OPENAIS_TASK}' -Wl,--whole-archive `${INTERFACES}' `${LOGGER_LIBS}' -Wl,--no-whole-archive)
