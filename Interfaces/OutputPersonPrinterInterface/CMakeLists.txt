@@ -1,4 +1,0 @@
-add_library(OutputPersonPrinterInterface STATIC OutputPersonPrinterInterface.cpp)
-target_include_directories(OutputPersonPrinterInterface PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/openais ${CMAKE_SOURCE_DIR}/Serialization)
-set_target_properties(OutputPersonPrinterInterface PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
-target_link_libraries(OutputPersonPrinterInterface PRIVATE Person)

@@ -1,11 +1,13 @@
 from Logger.ConsoleLogger import ConsoleLogger
 from Logger.Logger import *
 
-Interfaces = {
-    "PersonOutput": "PersonPrinter",
-}
+Interfaces = {}
 frequencyHz = 1.0
-
+TMP = {
+    "address": "127.0.0.1",
+    "port": 7892,
+    "threads": 4
+}
 consoleLogger = ConsoleLogger()
 logLevel = DEBUG
 loggers = [consoleLogger]

@@ -1,0 +1,4 @@
+add_library(OutputSomethingInterface STATIC OutputSomethingInterface.cpp)
+target_include_directories(OutputSomethingInterface PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/openais ${CMAKE_SOURCE_DIR}/Serialization)
+set_target_properties(OutputSomethingInterface PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Lib)
+target_link_libraries(OutputSomethingInterface PRIVATE Person)

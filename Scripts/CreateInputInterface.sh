@@ -7,6 +7,10 @@ INTERFACE_DIR=$PROJECT_DIR/Interfaces/Input${INTERFACE_NAME}Interface
 
 mkdir -p ${INTERFACE_DIR}
 
+$RESOURCES/CMakeLists.txt.Input.sh $@ > ${INTERFACE_DIR}/CMakeLists.txt
+$RESOURCES/InputInterface.hpp.sh $@ > ${INTERFACE_DIR}/Input${INTERFACE_NAME}Interface.hpp
+$RESOURCES/InputInterface.cpp.sh $@ > ${INTERFACE_DIR}/Input${INTERFACE_NAME}Interface.cpp
+exit 0
 #m4 --define=interfaceName=$INTERFACE_NAME --define=interfaceType=$2 ${RESOURCES}/CMakeLists.txt.Input.m4 > ${INTERFACE_DIR}/CMakeLists.txt
 #m4 --define=interfaceName=$INTERFACE_NAME --define=interfaceType=$2 ${RESOURCES}/InputInterface.hpp.m4 > ${INTERFACE_DIR}/Input${INTERFACE_NAME}Interface.hpp
 #m4 --define=interfaceName=$INTERFACE_NAME --define=interfaceType=$2 ${RESOURCES}/InputInterface.cpp.m4 > ${INTERFACE_DIR}/Input${INTERFACE_NAME}Interface.cpp

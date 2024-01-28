@@ -1,5 +1,3 @@
-#include "SHMTaskCommClient.hpp"
-
 #include <iceoryx_posh/popo/subscriber.hpp>
 #include <iceoryx_posh/runtime/posh_runtime.hpp>
 #include <iox/signal_watcher.hpp>

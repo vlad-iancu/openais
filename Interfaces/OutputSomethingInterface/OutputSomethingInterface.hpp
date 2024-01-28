@@ -1,6 +1,6 @@
 
-#ifndef OPENAIS_OUTPUT_personprinter_INTERFACE_H
-#define OPENAIS_OUTPUT_personprinter_INTERFACE_H
+#ifndef OPENAIS_OUTPUT_something_INTERFACE_H
+#define OPENAIS_OUTPUT_something_INTERFACE_H
 
 #include <Interface/OutputInterface.hpp>
 #include <Person/Person.pb.h>
@@ -10,12 +10,12 @@ namespace openais
 {
     namespace interfaces
     {
-        class OutputPersonPrinterInterface : public interface::OutputInterface<Person>
+        class OutputSomethingInterface : public interface::OutputInterface<Person>
         {
             private:
-                static OutputPersonPrinterInterface _interface;
-                OutputPersonPrinterInterface();
-                OutputPersonPrinterInterface(const OutputPersonPrinterInterface &other);
+                static OutputSomethingInterface _interface;
+                OutputSomethingInterface();
+                OutputSomethingInterface(const OutputSomethingInterface &other);
             
             public:
                 std::string GetInterfaceName() const override;

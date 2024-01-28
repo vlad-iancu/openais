@@ -1,7 +1,4 @@
-#include "SHMBlock.hpp"
-
 #include <boost/interprocess/mapped_region.hpp>
-#include <KeepAlive.pb.h>
 #include <thread>
 #include <chrono>
 
@@ -9,7 +6,7 @@
 #include <iceoryx_posh/runtime/posh_runtime.hpp>
 #include <iox/signal_watcher.hpp>
 
-using namespace openais::comm;
+//using namespace openais::comm;
 namespace ipc = boost::interprocess;
 /*
    Every SHMTaskCommClient will write a periodic keep-alive message with its PID
@@ -33,8 +30,7 @@ int main()
    iox::runtime::PoshRuntime::initRuntime(APP_NAME);
 
    iox::popo::Publisher<RadarObject> publisher({"Radar", "FrontLeft", "Object"});
-   iox::popo::Publisher<RadarObject> pub();
-   iox::capro::ServiceDescription serviceDescription());
+   //iox::popo::Publisher<RadarObject> pub();
    while(!iox::hasTerminationRequested())
    {
       RadarObject obj;
