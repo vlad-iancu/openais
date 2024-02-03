@@ -2,7 +2,9 @@
 #define OPENAIS_TASK_PERIODICTASK_H
 
 #include <Task/Task.hpp>
+#include <thread>
 
+#include <list>
 namespace openais
 {
     namespace task
@@ -14,7 +16,8 @@ namespace openais
         class PeriodicTask : public Task
         {
         protected:
-            double m_frequencyHz;
+            double mFrequencyHz;
+            std::list<std::thread> mComponentThreads;
 
         public:
             void Run() override;

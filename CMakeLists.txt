@@ -25,8 +25,6 @@ if(ENABLE_TESTING)
     add_custom_target(tests ${CMAKE_CTEST_COMMAND})
 endif()
 
-#set(DOXYGEN ${CMAKE_SOURCE_DIR}/BuildDependencies/doxygen/build/target/bin/doxygen)
-#set(DOXYGEN_PROPERTIES "")
 
 find_package(Doxygen REQUIRED)
 
@@ -41,5 +39,5 @@ add_subdirectory(Loggers)
 add_subdirectory(Interfaces)
 add_subdirectory(Tasks)
 add_subdirectory(Serialization)
-#Multiple definition in ld is because of -Wl,--whole-archive, find a way around that
+
 include("Config/Config.cmake")

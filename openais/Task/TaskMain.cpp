@@ -3,6 +3,7 @@
 #include <Task/Interpreter.hpp>
 #include <Task/PeriodicTask.hpp>
 #include <Task/ContinualTask.hpp>
+#include <Task/Component.hpp>
 #ifdef OPENAIS_DEBUG
 #include <Task/TaskManager/TaskManagerClient/TMPClient.hpp>
 #endif
@@ -79,6 +80,7 @@ namespace openais
             PeriodicTask *periodicTask = dynamic_cast<PeriodicTask *>(Task::task);
             ContinualTask *continualTask = dynamic_cast<ContinualTask *>(Task::task);
 
+            
             double frequencyHz;
             try
             {
@@ -93,7 +95,14 @@ namespace openais
                     exit(1);
                 }
             }
-
+            std::cout << "Components: " << Component::GetCounter() << std::endl;
+            for(int i = 0; i < Component::GetCounter(); i++)
+            {
+                Component *component = Component::GetComponent(i);
+                component->SetFrequency(config["components"][component->GetName()]["frequencyHz"].Get<double>());
+                component->Initialize(config["components"][component->GetName()]);
+                std::cout << "Component " << component->GetName() << " initialized" << std::endl;
+            }
             if (periodicTask)
             {
                 periodicTask->SetFrequency(frequencyHz);

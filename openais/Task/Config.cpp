@@ -11,7 +11,6 @@ void Config::FromPythonObject(PyObject *obj)
     {
         return;
     }
-    // std::unique_ptr<Config> config = std::make_unique<Config>(obj);
     m_value = obj;
     if (PyLong_Check(obj))
     {
@@ -49,7 +48,6 @@ void Config::FromPythonObject(PyObject *obj)
         for (Py_ssize_t i = 0; i < PyList_Size(pDictItems); i++)
         {
             pItem = PyList_GetItem(pDictItems, i);
-            // pItemValue = PyTuple_GetItem(pItem, 1);
             Config *config = new Config();
             config->FromPythonObject(pItem);
             m_children.push_back(config);
@@ -254,7 +252,7 @@ float Config::Get<float>() const
 {
     if (!PyFloat_Check(m_value))
     {
-        throw std::runtime_error("Config does not hold a double value");
+        throw std::runtime_error("Config does not hold a float value");
     }
     return (float)PyFloat_AsDouble(m_value);
 }
